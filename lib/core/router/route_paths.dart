@@ -13,6 +13,8 @@ abstract final class RoutePaths {
   static const String projectDetail = 'project-detail';
   static const String projectEdit = 'project-edit';
   static const String tasks = 'tasks';
+  static const String taskCreate = 'task-create';
+  static const String taskEdit = 'task-edit';
   static const String calendar = 'calendar';
   static const String meetings = 'meetings';
   static const String crm = 'crm';

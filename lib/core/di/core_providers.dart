@@ -19,6 +19,8 @@ import 'package:personal_os_dashboard/features/goals/data/datasources/goals_data
 import 'package:personal_os_dashboard/features/goals/domain/repositories/goals_repository.dart';
 import 'package:personal_os_dashboard/features/projects/data/datasources/projects_data_source.dart';
 import 'package:personal_os_dashboard/features/projects/domain/repositories/projects_repository.dart';
+import 'package:personal_os_dashboard/features/tasks/data/datasources/tasks_data_source.dart';
+import 'package:personal_os_dashboard/features/tasks/domain/repositories/tasks_repository.dart';
 
 /// Global application configuration provider.
 final appConfigProvider = Provider<AppConfig>((ref) {
@@ -109,4 +111,14 @@ final projectsDataSourceProvider = Provider<ProjectsDataSource>((ref) {
 /// Projects repository provider.
 final projectsRepositoryProvider = Provider<ProjectsRepository>((ref) {
   return sl<ProjectsRepository>();
+});
+
+/// Tasks data source provider.
+final tasksDataSourceProvider = Provider<TasksDataSource>((ref) {
+  return sl<TasksDataSource>();
+});
+
+/// Tasks repository provider.
+final tasksRepositoryProvider = Provider<TasksRepository>((ref) {
+  return sl<TasksRepository>();
 });

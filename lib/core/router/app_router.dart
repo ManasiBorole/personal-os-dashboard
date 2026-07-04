@@ -18,6 +18,8 @@ import 'package:personal_os_dashboard/features/goals/presentation/screens/goals_
 import 'package:personal_os_dashboard/features/projects/presentation/screens/project_detail_screen.dart';
 import 'package:personal_os_dashboard/features/projects/presentation/screens/project_form_screen.dart';
 import 'package:personal_os_dashboard/features/projects/presentation/screens/projects_screen.dart';
+import 'package:personal_os_dashboard/features/tasks/presentation/screens/task_form_screen.dart';
+import 'package:personal_os_dashboard/features/tasks/presentation/screens/tasks_screen.dart';
 import 'package:personal_os_dashboard/features/profile/presentation/screens/profile_screen.dart';
 
 /// Root navigator key for imperative navigation.
@@ -130,12 +132,33 @@ List<GoRoute> get _protectedRoutes => [
           ),
         ],
       ),
-      _placeholderRoute(
+      GoRoute(
         path: RouteConstants.tasks,
         name: RoutePaths.tasks,
-        title: 'Tasks',
-        description: 'Manage daily actions and priorities.',
-        icon: Icons.task_alt_outlined,
+        pageBuilder: (context, state) {
+          final projectId = state.uri.queryParameters['projectId'];
+          return NoTransitionPage(
+            child: TasksScreen(initialProjectId: projectId),
+          );
+        },
+        routes: [
+          GoRoute(
+            path: 'new',
+            name: RoutePaths.taskCreate,
+            parentNavigatorKey: rootNavigatorKey,
+            builder: (context, state) => TaskFormScreen(
+              initialProjectId: state.uri.queryParameters['projectId'],
+            ),
+          ),
+          GoRoute(
+            path: ':id/edit',
+            name: RoutePaths.taskEdit,
+            parentNavigatorKey: rootNavigatorKey,
+            builder: (context, state) => TaskFormScreen(
+              taskId: state.pathParameters['id'],
+            ),
+          ),
+        ],
       ),
       _placeholderRoute(
         path: RouteConstants.calendar,

@@ -32,6 +32,10 @@ import 'package:personal_os_dashboard/features/tasks/data/datasources/supabase_t
 import 'package:personal_os_dashboard/features/tasks/data/datasources/tasks_data_source.dart';
 import 'package:personal_os_dashboard/features/tasks/data/repositories/tasks_repository_impl.dart';
 import 'package:personal_os_dashboard/features/tasks/domain/repositories/tasks_repository.dart';
+import 'package:personal_os_dashboard/features/calendar/data/datasources/calendar_data_source.dart';
+import 'package:personal_os_dashboard/features/calendar/data/datasources/supabase_calendar_data_source.dart';
+import 'package:personal_os_dashboard/features/calendar/data/repositories/calendar_repository_impl.dart';
+import 'package:personal_os_dashboard/features/calendar/domain/repositories/calendar_repository.dart';
 
 /// Global service locator instance.
 final GetIt sl = GetIt.instance;
@@ -117,6 +121,9 @@ Future<void> configureDependencies(
   sl.registerLazySingleton<TasksDataSource>(
     () => SupabaseTasksDataSource(sl<DatabaseRemoteDataSource>()),
   );
+  sl.registerLazySingleton<CalendarDataSource>(
+    () => SupabaseCalendarDataSource(sl<DatabaseRemoteDataSource>()),
+  );
 
   // Repositories
   sl.registerLazySingleton<AuthRepository>(
@@ -147,6 +154,13 @@ Future<void> configureDependencies(
     () => createTasksRepository(
       isSupabaseReady: sl<SupabaseService>().isInitialized,
       remoteDataSource: sl<TasksDataSource>(),
+    ),
+  );
+  sl.registerLazySingleton<CalendarRepository>(
+    () => createCalendarRepository(
+      isSupabaseReady: sl<SupabaseService>().isInitialized,
+      remoteDataSource: sl<CalendarDataSource>(),
+      tasksDataSource: sl<TasksDataSource>(),
     ),
   );
 

@@ -18,6 +18,8 @@ import 'package:personal_os_dashboard/features/goals/presentation/screens/goals_
 import 'package:personal_os_dashboard/features/projects/presentation/screens/project_detail_screen.dart';
 import 'package:personal_os_dashboard/features/projects/presentation/screens/project_form_screen.dart';
 import 'package:personal_os_dashboard/features/projects/presentation/screens/projects_screen.dart';
+import 'package:personal_os_dashboard/features/calendar/presentation/screens/calendar_event_form_screen.dart';
+import 'package:personal_os_dashboard/features/calendar/presentation/screens/calendar_screen.dart';
 import 'package:personal_os_dashboard/features/tasks/presentation/screens/task_form_screen.dart';
 import 'package:personal_os_dashboard/features/tasks/presentation/screens/tasks_screen.dart';
 import 'package:personal_os_dashboard/features/profile/presentation/screens/profile_screen.dart';
@@ -160,12 +162,33 @@ List<GoRoute> get _protectedRoutes => [
           ),
         ],
       ),
-      _placeholderRoute(
+      GoRoute(
         path: RouteConstants.calendar,
         name: RoutePaths.calendar,
-        title: 'Calendar',
-        description: 'View and schedule your time.',
-        icon: Icons.calendar_month_outlined,
+        pageBuilder: (context, state) => const NoTransitionPage(
+          child: CalendarScreen(),
+        ),
+        routes: [
+          GoRoute(
+            path: 'new',
+            name: RoutePaths.calendarCreate,
+            parentNavigatorKey: rootNavigatorKey,
+            builder: (context, state) {
+              final dayParam = state.uri.queryParameters['day'];
+              final initialDay =
+                  dayParam != null ? DateTime.tryParse(dayParam) : null;
+              return CalendarEventFormScreen(initialDay: initialDay);
+            },
+          ),
+          GoRoute(
+            path: ':id/edit',
+            name: RoutePaths.calendarEdit,
+            parentNavigatorKey: rootNavigatorKey,
+            builder: (context, state) => CalendarEventFormScreen(
+              eventId: state.pathParameters['id'],
+            ),
+          ),
+        ],
       ),
       _placeholderRoute(
         path: RouteConstants.meetings,

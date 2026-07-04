@@ -21,6 +21,8 @@ import 'package:personal_os_dashboard/features/projects/data/datasources/project
 import 'package:personal_os_dashboard/features/projects/domain/repositories/projects_repository.dart';
 import 'package:personal_os_dashboard/features/tasks/data/datasources/tasks_data_source.dart';
 import 'package:personal_os_dashboard/features/tasks/domain/repositories/tasks_repository.dart';
+import 'package:personal_os_dashboard/features/calendar/data/datasources/calendar_data_source.dart';
+import 'package:personal_os_dashboard/features/calendar/domain/repositories/calendar_repository.dart';
 
 /// Global application configuration provider.
 final appConfigProvider = Provider<AppConfig>((ref) {
@@ -121,4 +123,14 @@ final tasksDataSourceProvider = Provider<TasksDataSource>((ref) {
 /// Tasks repository provider.
 final tasksRepositoryProvider = Provider<TasksRepository>((ref) {
   return sl<TasksRepository>();
+});
+
+/// Calendar data source provider.
+final calendarDataSourceProvider = Provider<CalendarDataSource>((ref) {
+  return sl<CalendarDataSource>();
+});
+
+/// Calendar repository provider.
+final calendarRepositoryProvider = Provider<CalendarRepository>((ref) {
+  return sl<CalendarRepository>();
 });

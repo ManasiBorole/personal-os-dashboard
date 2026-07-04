@@ -44,6 +44,9 @@ abstract final class EnvReader {
   static String? _devFallback(String key) {
     return switch (key) {
       'APP_ENV' => 'dev',
+      'LOCAL_AUTH_ENABLED' => 'true',
+      'DEV_TEST_EMAIL' => 'test@personalos.dev',
+      'DEV_TEST_PASSWORD' => 'password123',
       'SUPABASE_URL' => '',
       'SUPABASE_ANON_KEY' => '',
       'FIREBASE_API_KEY' => '',

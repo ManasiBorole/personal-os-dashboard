@@ -1,5 +1,9 @@
+import 'package:personal_os_dashboard/core/config/app_config.dart';
 import 'package:personal_os_dashboard/core/error/exceptions.dart' as core;
+import 'package:personal_os_dashboard/core/storage/storage_helper.dart';
 import 'package:personal_os_dashboard/core/supabase/datasources/auth_remote_datasource.dart';
+import 'package:personal_os_dashboard/features/auth/data/constants/local_dev_auth_config.dart';
+import 'package:personal_os_dashboard/features/auth/data/repositories/local_dev_auth_repository.dart';
 import 'package:personal_os_dashboard/features/auth/domain/entities/auth_state.dart';
 import 'package:personal_os_dashboard/features/auth/domain/repositories/auth_repository.dart';
 
@@ -82,9 +86,15 @@ final class UnconfiguredAuthRepository implements AuthRepository {
 AuthRepository createAuthRepository({
   required bool isSupabaseReady,
   required AuthRemoteDataSource remoteDataSource,
+  required AppConfig config,
+  required StorageHelper storageHelper,
 }) {
   if (isSupabaseReady) {
     return AuthRepositoryImpl(remoteDataSource);
+  }
+
+  if (config.isLocalAuthMode && LocalDevAuthConfig.isEnabled) {
+    return LocalDevAuthRepository(storageHelper);
   }
 
   return UnconfiguredAuthRepository();

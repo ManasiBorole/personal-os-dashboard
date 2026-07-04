@@ -176,6 +176,8 @@ Future<void> configureDependencies(
     () => createAuthRepository(
       isSupabaseReady: sl<SupabaseService>().isInitialized,
       remoteDataSource: sl<AuthRemoteDataSource>(),
+      config: sl<AppConfig>(),
+      storageHelper: sl<StorageHelper>(),
     ),
   );
   sl.registerLazySingleton<FileStorageRepository>(
@@ -285,7 +287,8 @@ Future<void> configureDependencies(
   );
 
   sl<AppLogger>().info(
-    'Core dependencies configured [${config.environment.name}]',
+    'Core dependencies configured [${config.environment.name}]'
+    '${config.isLocalAuthMode ? ' — local auth enabled' : ''}',
   );
 }
 

@@ -25,4 +25,8 @@ abstract final class StorageConstants {
   // Cache keys
   static const String userProfileCacheKey = 'user_profile';
   static const String dashboardCacheKey = 'dashboard_data';
+
+  // Local development auth
+  static const String localDevUsersCacheKey = 'local_dev_auth_users';
+  static const String localDevSessionKey = 'local_dev_auth_session';
 }

@@ -26,4 +26,8 @@ final class AppConfig {
 
   bool get hasSupabaseCredentials =>
       supabaseUrl.isNotEmpty && supabaseAnonKey.isNotEmpty;
+
+  /// Uses offline auth when Supabase is unavailable in development.
+  bool get isLocalAuthMode =>
+      environment.isDev && !hasSupabaseCredentials;
 }

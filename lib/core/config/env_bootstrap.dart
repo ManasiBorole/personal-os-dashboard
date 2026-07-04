@@ -52,6 +52,7 @@ abstract final class EnvBootstrap {
         'Startup config [${config.environment.name}] | '
         'dotenv=$dotenvStatus | '
         'supabase=${config.hasSupabaseCredentials ? 'enabled' : 'disabled (local mode)'} | '
+        'localAuth=${config.isLocalAuthMode ? 'enabled' : 'disabled'} | '
         'firebase=${_hasFirebaseConfig() ? 'configured' : 'disabled'}';
 
     if (logger != null) {

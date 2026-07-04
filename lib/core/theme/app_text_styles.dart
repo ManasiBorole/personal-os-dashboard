@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 /// Typography definitions for the design system.
 abstract final class AppTextStyles {
-  static const String fontFamily = 'Roboto';
+  static const String fontFamily = 'Inter';
 
   static TextStyle displayLarge(Color color) => TextStyle(
         fontFamily: fontFamily,

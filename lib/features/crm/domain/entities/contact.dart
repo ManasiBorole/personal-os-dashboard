@@ -119,6 +119,7 @@ final class Contact extends Entity {
     required this.followUps,
     required this.meetingHistory,
     required this.companyName,
+    required this.birthday,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -139,6 +140,7 @@ final class Contact extends Entity {
   final List<ContactFollowUp> followUps;
   final List<ContactMeetingRecord> meetingHistory;
   final String? companyName;
+  final DateTime? birthday;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -167,10 +169,12 @@ final class Contact extends Entity {
     List<ContactFollowUp>? followUps,
     List<ContactMeetingRecord>? meetingHistory,
     String? companyName,
+    DateTime? birthday,
     DateTime? createdAt,
     DateTime? updatedAt,
     bool clearCompanyId = false,
     bool clearVisitingCard = false,
+    bool clearBirthday = false,
   }) {
     return Contact(
       id: id ?? this.id,
@@ -191,6 +195,7 @@ final class Contact extends Entity {
       followUps: followUps ?? this.followUps,
       meetingHistory: meetingHistory ?? this.meetingHistory,
       companyName: clearCompanyId ? null : (companyName ?? this.companyName),
+      birthday: clearBirthday ? null : (birthday ?? this.birthday),
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -214,6 +219,7 @@ final class Contact extends Entity {
         followUps,
         meetingHistory,
         companyName,
+        birthday,
         createdAt,
         updatedAt,
       ];

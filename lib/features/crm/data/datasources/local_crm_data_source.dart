@@ -139,6 +139,7 @@ final class LocalCrmDataSource implements CrmDataSource {
         createdAt: now.subtract(const Duration(days: 5)),
         updatedAt: now.subtract(const Duration(hours: 12)),
         companyName: null,
+        birthday: DateTime(now.year - 28, now.month, now.day),
       ),
     ];
 
@@ -170,6 +171,7 @@ final class LocalCrmDataSource implements CrmDataSource {
       createdAt: contact.createdAt,
       updatedAt: contact.updatedAt,
       companyName: _companyName(contact.companyId),
+      birthday: contact.birthday,
     );
   }
 
@@ -212,6 +214,7 @@ final class LocalCrmDataSource implements CrmDataSource {
       notes: params.notes,
       followUps: params.followUps,
       meetingHistory: params.meetingHistory,
+      birthday: params.birthday,
       createdAt: now,
       updatedAt: now,
     );
@@ -241,6 +244,7 @@ final class LocalCrmDataSource implements CrmDataSource {
       notes: params.notes,
       followUps: params.followUps,
       meetingHistory: params.meetingHistory,
+      birthday: params.clearBirthday ? null : (params.birthday ?? existing.birthday),
       createdAt: existing.createdAt,
       updatedAt: DateTime.now(),
     );
@@ -276,6 +280,7 @@ final class LocalCrmDataSource implements CrmDataSource {
       notes: existing.notes,
       followUps: existing.followUps,
       meetingHistory: existing.meetingHistory,
+      birthday: existing.birthday,
       createdAt: existing.createdAt,
       updatedAt: DateTime.now(),
     );

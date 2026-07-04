@@ -54,6 +54,7 @@ final class SupabaseCrmDataSource implements CrmDataSource {
         'follow_ups': params.followUps.map(ContactModel.followUpToJson).toList(),
         'meeting_history':
             params.meetingHistory.map(ContactModel.meetingToJson).toList(),
+        'birthday': params.birthday?.toIso8601String(),
       },
     );
     final companies = await _companyNameMap(userId);
@@ -80,6 +81,9 @@ final class SupabaseCrmDataSource implements CrmDataSource {
         'follow_ups': params.followUps.map(ContactModel.followUpToJson).toList(),
         'meeting_history':
             params.meetingHistory.map(ContactModel.meetingToJson).toList(),
+        'birthday': params.clearBirthday
+            ? null
+            : params.birthday?.toIso8601String(),
         'updated_at': DateTime.now().toIso8601String(),
       },
       filters: {'id': params.id, 'user_id': userId},

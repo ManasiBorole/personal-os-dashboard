@@ -45,6 +45,7 @@ class _ContactFormScreenState extends ConsumerState<ContactFormScreen> {
   List<ContactFollowUp> _followUps = [];
   List<ContactMeetingRecord> _meetingHistory = [];
   DateTime? _followUpDueDate;
+  DateTime? _birthday;
   DateTime _meetingDate = DateTime.now();
   bool _initialized = false;
 
@@ -75,6 +76,7 @@ class _ContactFormScreenState extends ConsumerState<ContactFormScreen> {
     _notes = List<ContactNote>.from(contact.notes);
     _followUps = List<ContactFollowUp>.from(contact.followUps);
     _meetingHistory = List<ContactMeetingRecord>.from(contact.meetingHistory);
+    _birthday = contact.birthday;
     _initialized = true;
   }
 
@@ -161,6 +163,16 @@ class _ContactFormScreenState extends ConsumerState<ContactFormScreen> {
     if (date != null) setState(() => _meetingDate = date);
   }
 
+  Future<void> _pickBirthday() async {
+    final date = await showDatePicker(
+      context: context,
+      initialDate: _birthday ?? DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+    if (date != null) setState(() => _birthday = date);
+  }
+
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
 
@@ -178,7 +190,9 @@ class _ContactFormScreenState extends ConsumerState<ContactFormScreen> {
             notes: _notes,
             followUps: _followUps,
             meetingHistory: _meetingHistory,
+            birthday: _birthday,
             clearCompanyId: _companyId == null,
+            clearBirthday: _birthday == null,
           )
         : CreateContactParams(
             firstName: _firstNameController.text.trim(),
@@ -192,6 +206,7 @@ class _ContactFormScreenState extends ConsumerState<ContactFormScreen> {
             notes: _notes,
             followUps: _followUps,
             meetingHistory: _meetingHistory,
+            birthday: _birthday,
           );
 
     final controller = ref.read(contactFormControllerProvider.notifier);
@@ -285,6 +300,30 @@ class _ContactFormScreenState extends ConsumerState<ContactFormScreen> {
               controller: _addressController,
               label: 'Address',
               maxLines: 2,
+            ),
+            const SizedBox(height: AppSpacing.md),
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              title: const Text('Birthday'),
+              subtitle: Text(
+                _birthday == null
+                    ? 'Not set'
+                    : app_date.DateUtils.formatDate(_birthday!),
+              ),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (_birthday != null)
+                    IconButton(
+                      onPressed: () => setState(() => _birthday = null),
+                      icon: const Icon(Icons.clear),
+                    ),
+                  IconButton(
+                    onPressed: _pickBirthday,
+                    icon: const Icon(Icons.cake_outlined),
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: AppSpacing.md),
             DropdownButtonFormField<ContactCategory>(

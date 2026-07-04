@@ -34,6 +34,7 @@ import 'package:personal_os_dashboard/features/notes/presentation/screens/notes_
 import 'package:personal_os_dashboard/features/documents/presentation/screens/document_preview_screen.dart';
 import 'package:personal_os_dashboard/features/documents/presentation/screens/documents_screen.dart';
 import 'package:personal_os_dashboard/features/analytics/presentation/screens/analytics_screen.dart';
+import 'package:personal_os_dashboard/features/notifications/presentation/screens/notifications_screen.dart';
 import 'package:personal_os_dashboard/features/profile/presentation/screens/profile_screen.dart';
 
 /// Root navigator key for imperative navigation.
@@ -329,12 +330,12 @@ List<GoRoute> get _protectedRoutes => [
           child: AnalyticsScreen(),
         ),
       ),
-      _placeholderRoute(
+      GoRoute(
         path: RouteConstants.notifications,
         name: RoutePaths.notifications,
-        title: 'Notifications',
-        description: 'Stay updated on important activity.',
-        icon: Icons.notifications_outlined,
+        pageBuilder: (context, state) => const NoTransitionPage(
+          child: NotificationsScreen(),
+        ),
       ),
       _placeholderRoute(
         path: RouteConstants.settings,

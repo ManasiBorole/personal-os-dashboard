@@ -57,6 +57,14 @@ import 'package:personal_os_dashboard/features/documents/data/services/document_
 import 'package:personal_os_dashboard/features/documents/domain/repositories/documents_repository.dart';
 import 'package:personal_os_dashboard/features/analytics/data/repositories/analytics_repository_impl.dart';
 import 'package:personal_os_dashboard/features/analytics/domain/repositories/analytics_repository.dart';
+import 'package:personal_os_dashboard/features/notifications/data/datasources/notifications_data_source.dart';
+import 'package:personal_os_dashboard/features/notifications/data/datasources/supabase_notifications_data_source.dart';
+import 'package:personal_os_dashboard/features/notifications/data/repositories/notifications_repository_impl.dart';
+import 'package:personal_os_dashboard/features/notifications/data/services/notification_coordinator.dart';
+import 'package:personal_os_dashboard/features/notifications/data/services/reminder_scheduler_service.dart';
+import 'package:personal_os_dashboard/features/notifications/domain/repositories/notifications_repository.dart';
+import 'package:personal_os_dashboard/core/notifications/fcm_service.dart';
+import 'package:personal_os_dashboard/core/notifications/local_notification_service.dart';
 
 /// Global service locator instance.
 final GetIt sl = GetIt.instance;
@@ -157,6 +165,9 @@ Future<void> configureDependencies(
   sl.registerLazySingleton<DocumentsDataSource>(
     () => SupabaseDocumentsDataSource(sl<DatabaseRemoteDataSource>()),
   );
+  sl.registerLazySingleton<NotificationsDataSource>(
+    () => SupabaseNotificationsDataSource(sl<DatabaseRemoteDataSource>()),
+  );
 
   // Repositories
   sl.registerLazySingleton<AuthRepository>(
@@ -229,6 +240,41 @@ Future<void> configureDependencies(
       goalsRepository: sl<GoalsRepository>(),
       projectsRepository: sl<ProjectsRepository>(),
       meetingsRepository: sl<MeetingsRepository>(),
+    ),
+  );
+  sl.registerLazySingleton<NotificationsRepository>(
+    () => createNotificationsRepository(
+      isSupabaseReady: sl<SupabaseService>().isInitialized,
+      remoteDataSource: sl<NotificationsDataSource>(),
+    ),
+  );
+
+  sl.registerLazySingleton<LocalNotificationService>(
+    () => LocalNotificationService(sl<AppLogger>()),
+  );
+  sl.registerLazySingleton<FcmService>(
+    () => FcmService(
+      logger: sl<AppLogger>(),
+      storageHelper: sl<StorageHelper>(),
+      localNotificationService: sl<LocalNotificationService>(),
+      notificationsRepository: sl<NotificationsRepository>(),
+    ),
+  );
+  sl.registerLazySingleton<ReminderSchedulerService>(
+    () => ReminderSchedulerService(
+      tasksRepository: sl<TasksRepository>(),
+      meetingsRepository: sl<MeetingsRepository>(),
+      goalsRepository: sl<GoalsRepository>(),
+      crmRepository: sl<CrmRepository>(),
+      calendarRepository: sl<CalendarRepository>(),
+      notificationsRepository: sl<NotificationsRepository>(),
+    ),
+  );
+  sl.registerLazySingleton<NotificationCoordinator>(
+    () => NotificationCoordinator(
+      fcmService: sl<FcmService>(),
+      localNotificationService: sl<LocalNotificationService>(),
+      reminderScheduler: sl<ReminderSchedulerService>(),
     ),
   );
 

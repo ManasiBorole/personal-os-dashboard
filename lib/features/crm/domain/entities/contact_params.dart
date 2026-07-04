@@ -14,6 +14,7 @@ final class CreateContactParams {
     required this.notes,
     required this.followUps,
     required this.meetingHistory,
+    this.birthday,
   });
 
   final String firstName;
@@ -27,6 +28,7 @@ final class CreateContactParams {
   final List<ContactNote> notes;
   final List<ContactFollowUp> followUps;
   final List<ContactMeetingRecord> meetingHistory;
+  final DateTime? birthday;
 }
 
 /// Parameters for updating a contact.
@@ -44,7 +46,9 @@ final class UpdateContactParams {
     required this.notes,
     required this.followUps,
     required this.meetingHistory,
+    this.birthday,
     this.clearCompanyId = false,
+    this.clearBirthday = false,
   });
 
   final String id;
@@ -59,7 +63,9 @@ final class UpdateContactParams {
   final List<ContactNote> notes;
   final List<ContactFollowUp> followUps;
   final List<ContactMeetingRecord> meetingHistory;
+  final DateTime? birthday;
   final bool clearCompanyId;
+  final bool clearBirthday;
 }
 
 /// Parameters for creating a company.

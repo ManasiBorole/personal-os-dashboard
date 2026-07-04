@@ -22,6 +22,7 @@ final class ContactModel {
     required this.createdAt,
     required this.updatedAt,
     this.companyName,
+    this.birthday,
   });
 
   final String id;
@@ -42,6 +43,7 @@ final class ContactModel {
   final DateTime createdAt;
   final DateTime updatedAt;
   final String? companyName;
+  final DateTime? birthday;
 
   factory ContactModel.fromJson(Map<String, dynamic> json) {
     return ContactModel(
@@ -63,6 +65,7 @@ final class ContactModel {
       createdAt: _parseDate(json['created_at']) ?? DateTime.now(),
       updatedAt: _parseDate(json['updated_at']) ?? DateTime.now(),
       companyName: json['company_name']?.toString(),
+      birthday: _parseDate(json['birthday']),
     );
   }
 
@@ -83,6 +86,7 @@ final class ContactModel {
       'contact_notes': notes.map(noteToJson).toList(),
       'follow_ups': followUps.map(followUpToJson).toList(),
       'meeting_history': meetingHistory.map(meetingToJson).toList(),
+      'birthday': birthday?.toIso8601String(),
       'created_at': now,
       'updated_at': now,
     };
@@ -103,6 +107,7 @@ final class ContactModel {
       'contact_notes': notes.map(noteToJson).toList(),
       'follow_ups': followUps.map(followUpToJson).toList(),
       'meeting_history': meetingHistory.map(meetingToJson).toList(),
+      'birthday': birthday?.toIso8601String(),
       'updated_at': DateTime.now().toIso8601String(),
     };
   }
@@ -125,6 +130,7 @@ final class ContactModel {
       followUps: followUps,
       meetingHistory: meetingHistory,
       companyName: companyName,
+      birthday: birthday,
       createdAt: createdAt,
       updatedAt: updatedAt,
     );

@@ -1,43 +1,17 @@
-import 'package:intl/intl.dart';
+import 'package:personal_os_dashboard/core/utils/date_utils.dart';
 
-/// Date and time formatting helpers.
+export 'package:personal_os_dashboard/core/utils/date_utils.dart';
+
+/// Backward-compatible alias. Prefer [DateUtils].
 abstract final class DateTimeUtils {
-  static String formatDate(DateTime date, {String? pattern}) {
-    return DateFormat(pattern ?? 'y-MM-dd').format(date);
-  }
+  static String formatDate(DateTime date, {String? pattern}) =>
+      DateUtils.formatDate(date, pattern: pattern);
 
-  static String formatDateTime(DateTime dateTime, {String? pattern}) {
-    return DateFormat(pattern ?? 'y-MM-dd HH:mm').format(dateTime);
-  }
+  static String formatDateTime(DateTime dateTime, {String? pattern}) =>
+      DateUtils.formatDateTime(dateTime, pattern: pattern);
 
-  static String formatRelative(DateTime dateTime) {
-    final now = DateTime.now();
-    final difference = now.difference(dateTime);
+  static String formatRelative(DateTime dateTime) =>
+      DateUtils.formatRelative(dateTime);
 
-    if (difference.inDays > 7) {
-      return formatDate(dateTime);
-    }
-
-    if (difference.inDays >= 1) {
-      return '${difference.inDays}d ago';
-    }
-
-    if (difference.inHours >= 1) {
-      return '${difference.inHours}h ago';
-    }
-
-    if (difference.inMinutes >= 1) {
-      return '${difference.inMinutes}m ago';
-    }
-
-    return 'Just now';
-  }
-
-  static DateTime? tryParse(String value) {
-    try {
-      return DateTime.parse(value);
-    } on FormatException {
-      return null;
-    }
-  }
+  static DateTime? tryParse(String value) => DateUtils.tryParse(value);
 }

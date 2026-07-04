@@ -17,6 +17,9 @@ import 'package:personal_os_dashboard/core/supabase/services/storage_service.dar
 import 'package:personal_os_dashboard/core/supabase/supabase_service.dart';
 import 'package:personal_os_dashboard/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:personal_os_dashboard/features/auth/domain/repositories/auth_repository.dart';
+import 'package:personal_os_dashboard/features/dashboard/data/datasources/dashboard_remote_datasource.dart';
+import 'package:personal_os_dashboard/features/dashboard/data/repositories/dashboard_repository_impl.dart';
+import 'package:personal_os_dashboard/features/dashboard/domain/repositories/dashboard_repository.dart';
 
 /// Global service locator instance.
 final GetIt sl = GetIt.instance;
@@ -90,6 +93,9 @@ Future<void> configureDependencies(
   sl.registerLazySingleton<StorageRemoteDataSource>(
     () => SupabaseStorageRemoteDataSource(sl<StorageService>()),
   );
+  sl.registerLazySingleton<DashboardRemoteDataSource>(
+    () => SupabaseDashboardRemoteDataSource(sl<DatabaseService>()),
+  );
 
   // Repositories
   sl.registerLazySingleton<AuthRepository>(
@@ -100,6 +106,9 @@ Future<void> configureDependencies(
   );
   sl.registerLazySingleton<FileStorageRepository>(
     () => FileStorageRepositoryImpl(sl<StorageRemoteDataSource>()),
+  );
+  sl.registerLazySingleton<DashboardRepository>(
+    () => DashboardRepositoryImpl(sl<DashboardRemoteDataSource>()),
   );
 
   sl<AppLogger>().info(

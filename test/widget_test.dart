@@ -77,9 +77,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Dashboard'), findsWidgets);
-    expect(
-      find.text('Your productivity command center.'),
-      findsOneWidget,
-    );
+    expect(find.text('Task Summary'), findsOneWidget);
+    expect(find.text('Quick Actions'), findsOneWidget);
   });
 }

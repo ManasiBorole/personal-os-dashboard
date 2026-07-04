@@ -12,6 +12,7 @@ import 'package:personal_os_dashboard/features/auth/presentation/screens/forgot_
 import 'package:personal_os_dashboard/features/auth/presentation/screens/login_screen.dart';
 import 'package:personal_os_dashboard/features/auth/presentation/screens/signup_screen.dart';
 import 'package:personal_os_dashboard/features/auth/presentation/screens/splash_screen.dart';
+import 'package:personal_os_dashboard/features/dashboard/presentation/screens/dashboard_screen.dart';
 import 'package:personal_os_dashboard/features/profile/presentation/screens/profile_screen.dart';
 
 /// Root navigator key for imperative navigation.
@@ -61,12 +62,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
 });
 
 List<GoRoute> get _protectedRoutes => [
-      _placeholderRoute(
+      GoRoute(
         path: RouteConstants.dashboard,
         name: RoutePaths.dashboard,
-        title: 'Dashboard',
-        description: 'Your productivity command center.',
-        icon: Icons.dashboard_outlined,
+        pageBuilder: (context, state) => const NoTransitionPage(
+          child: DashboardScreen(),
+        ),
       ),
       _placeholderRoute(
         path: RouteConstants.goals,

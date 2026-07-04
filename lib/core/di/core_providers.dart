@@ -13,6 +13,8 @@ import 'package:personal_os_dashboard/core/supabase/services/database_service.da
 import 'package:personal_os_dashboard/core/supabase/services/storage_service.dart';
 import 'package:personal_os_dashboard/core/supabase/supabase_service.dart';
 import 'package:personal_os_dashboard/features/auth/domain/repositories/auth_repository.dart';
+import 'package:personal_os_dashboard/features/dashboard/data/datasources/dashboard_remote_datasource.dart';
+import 'package:personal_os_dashboard/features/dashboard/domain/repositories/dashboard_repository.dart';
 
 /// Global application configuration provider.
 final appConfigProvider = Provider<AppConfig>((ref) {
@@ -72,4 +74,15 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
 /// File storage repository provider.
 final fileStorageRepositoryProvider = Provider<FileStorageRepository>((ref) {
   return sl<FileStorageRepository>();
+});
+
+/// Dashboard remote data source provider.
+final dashboardRemoteDataSourceProvider =
+    Provider<DashboardRemoteDataSource>((ref) {
+  return sl<DashboardRemoteDataSource>();
+});
+
+/// Dashboard repository provider.
+final dashboardRepositoryProvider = Provider<DashboardRepository>((ref) {
+  return sl<DashboardRepository>();
 });

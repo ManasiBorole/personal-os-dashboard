@@ -25,6 +25,8 @@ import 'package:personal_os_dashboard/features/calendar/data/datasources/calenda
 import 'package:personal_os_dashboard/features/calendar/domain/repositories/calendar_repository.dart';
 import 'package:personal_os_dashboard/features/meetings/data/datasources/meetings_data_source.dart';
 import 'package:personal_os_dashboard/features/meetings/domain/repositories/meetings_repository.dart';
+import 'package:personal_os_dashboard/features/crm/data/datasources/crm_data_source.dart';
+import 'package:personal_os_dashboard/features/crm/domain/repositories/crm_repository.dart';
 
 /// Global application configuration provider.
 final appConfigProvider = Provider<AppConfig>((ref) {
@@ -145,4 +147,14 @@ final meetingsDataSourceProvider = Provider<MeetingsDataSource>((ref) {
 /// Meetings repository provider.
 final meetingsRepositoryProvider = Provider<MeetingsRepository>((ref) {
   return sl<MeetingsRepository>();
+});
+
+/// CRM data source provider.
+final crmDataSourceProvider = Provider<CrmDataSource>((ref) {
+  return sl<CrmDataSource>();
+});
+
+/// CRM repository provider.
+final crmRepositoryProvider = Provider<CrmRepository>((ref) {
+  return sl<CrmRepository>();
 });

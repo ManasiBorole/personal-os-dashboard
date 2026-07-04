@@ -1,0 +1,9 @@
+export 'domain/entities/contact.dart';
+export 'domain/entities/contact_form_state.dart';
+export 'domain/entities/contact_params.dart';
+export 'domain/repositories/crm_repository.dart';
+export 'presentation/providers/crm_provider.dart';
+export 'presentation/screens/company_form_screen.dart';
+export 'presentation/screens/contact_detail_screen.dart';
+export 'presentation/screens/contact_form_screen.dart';
+export 'presentation/screens/crm_screen.dart';

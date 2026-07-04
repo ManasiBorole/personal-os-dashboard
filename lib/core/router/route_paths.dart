@@ -23,6 +23,11 @@ abstract final class RoutePaths {
   static const String meetingDetail = 'meeting-detail';
   static const String meetingEdit = 'meeting-edit';
   static const String crm = 'crm';
+  static const String contactCreate = 'contact-create';
+  static const String contactDetail = 'contact-detail';
+  static const String contactEdit = 'contact-edit';
+  static const String companyCreate = 'company-create';
+  static const String companyEdit = 'company-edit';
   static const String notes = 'notes';
   static const String documents = 'documents';
   static const String analytics = 'analytics';

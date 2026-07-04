@@ -40,6 +40,11 @@ import 'package:personal_os_dashboard/features/meetings/data/datasources/meeting
 import 'package:personal_os_dashboard/features/meetings/data/datasources/supabase_meetings_data_source.dart';
 import 'package:personal_os_dashboard/features/meetings/data/repositories/meetings_repository_impl.dart';
 import 'package:personal_os_dashboard/features/meetings/domain/repositories/meetings_repository.dart';
+import 'package:personal_os_dashboard/features/crm/data/datasources/crm_data_source.dart';
+import 'package:personal_os_dashboard/features/crm/data/datasources/supabase_crm_data_source.dart';
+import 'package:personal_os_dashboard/features/crm/data/repositories/crm_repository_impl.dart';
+import 'package:personal_os_dashboard/features/crm/data/services/visiting_card_storage.dart';
+import 'package:personal_os_dashboard/features/crm/domain/repositories/crm_repository.dart';
 
 /// Global service locator instance.
 final GetIt sl = GetIt.instance;
@@ -131,6 +136,9 @@ Future<void> configureDependencies(
   sl.registerLazySingleton<MeetingsDataSource>(
     () => SupabaseMeetingsDataSource(sl<DatabaseRemoteDataSource>()),
   );
+  sl.registerLazySingleton<CrmDataSource>(
+    () => SupabaseCrmDataSource(sl<DatabaseRemoteDataSource>()),
+  );
 
   // Repositories
   sl.registerLazySingleton<AuthRepository>(
@@ -174,6 +182,13 @@ Future<void> configureDependencies(
     () => createMeetingsRepository(
       isSupabaseReady: sl<SupabaseService>().isInitialized,
       remoteDataSource: sl<MeetingsDataSource>(),
+    ),
+  );
+  sl.registerLazySingleton<CrmRepository>(
+    () => createCrmRepository(
+      isSupabaseReady: sl<SupabaseService>().isInitialized,
+      remoteDataSource: sl<CrmDataSource>(),
+      visitingCardStorage: VisitingCardStorage(sl<FileStorageRepository>()),
     ),
   );
 

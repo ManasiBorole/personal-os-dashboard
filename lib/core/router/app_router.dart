@@ -25,6 +25,10 @@ import 'package:personal_os_dashboard/features/tasks/presentation/screens/tasks_
 import 'package:personal_os_dashboard/features/meetings/presentation/screens/meeting_detail_screen.dart';
 import 'package:personal_os_dashboard/features/meetings/presentation/screens/meeting_form_screen.dart';
 import 'package:personal_os_dashboard/features/meetings/presentation/screens/meetings_screen.dart';
+import 'package:personal_os_dashboard/features/crm/presentation/screens/company_form_screen.dart';
+import 'package:personal_os_dashboard/features/crm/presentation/screens/contact_detail_screen.dart';
+import 'package:personal_os_dashboard/features/crm/presentation/screens/contact_form_screen.dart';
+import 'package:personal_os_dashboard/features/crm/presentation/screens/crm_screen.dart';
 import 'package:personal_os_dashboard/features/profile/presentation/screens/profile_screen.dart';
 
 /// Root navigator key for imperative navigation.
@@ -226,12 +230,52 @@ List<GoRoute> get _protectedRoutes => [
           ),
         ],
       ),
-      _placeholderRoute(
+      GoRoute(
         path: RouteConstants.crm,
         name: RoutePaths.crm,
-        title: 'CRM',
-        description: 'Manage contacts, companies, and interactions.',
-        icon: Icons.people_outline,
+        pageBuilder: (context, state) => const NoTransitionPage(
+          child: CrmScreen(),
+        ),
+        routes: [
+          GoRoute(
+            path: 'contacts/new',
+            name: RoutePaths.contactCreate,
+            parentNavigatorKey: rootNavigatorKey,
+            builder: (context, state) => const ContactFormScreen(),
+          ),
+          GoRoute(
+            path: 'contacts/:id',
+            name: RoutePaths.contactDetail,
+            parentNavigatorKey: rootNavigatorKey,
+            builder: (context, state) => ContactDetailScreen(
+              contactId: state.pathParameters['id']!,
+            ),
+            routes: [
+              GoRoute(
+                path: 'edit',
+                name: RoutePaths.contactEdit,
+                parentNavigatorKey: rootNavigatorKey,
+                builder: (context, state) => ContactFormScreen(
+                  contactId: state.pathParameters['id'],
+                ),
+              ),
+            ],
+          ),
+          GoRoute(
+            path: 'companies/new',
+            name: RoutePaths.companyCreate,
+            parentNavigatorKey: rootNavigatorKey,
+            builder: (context, state) => const CompanyFormScreen(),
+          ),
+          GoRoute(
+            path: 'companies/:id/edit',
+            name: RoutePaths.companyEdit,
+            parentNavigatorKey: rootNavigatorKey,
+            builder: (context, state) => CompanyFormScreen(
+              companyId: state.pathParameters['id'],
+            ),
+          ),
+        ],
       ),
       _placeholderRoute(
         path: RouteConstants.notes,

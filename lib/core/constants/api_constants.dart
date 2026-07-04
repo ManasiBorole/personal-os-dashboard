@@ -8,10 +8,12 @@ abstract final class ApiConstants {
   static const String calendarEventsTable = 'calendar_events';
   static const String meetingsTable = 'meetings';
   static const String contactsTable = 'contacts';
+  static const String companiesTable = 'companies';
   static const String notesTable = 'notes';
   static const String documentsTable = 'documents';
   static const String notificationsTable = 'notifications';
 
   static const String documentsBucket = 'documents';
+  static const String visitingCardsBucket = 'visiting-cards';
   static const String avatarsBucket = 'avatars';
 }

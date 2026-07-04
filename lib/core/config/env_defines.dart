@@ -13,4 +13,5 @@ abstract final class EnvDefines {
   static const firebaseAuthDomain = String.fromEnvironment('FIREBASE_AUTH_DOMAIN');
   static const firebaseIosBundleId =
       String.fromEnvironment('FIREBASE_IOS_BUNDLE_ID');
+  static const developmentMode = String.fromEnvironment('DEVELOPMENT_MODE');
 }

@@ -21,6 +21,7 @@ void main() {
       environment: AppEnvironment.dev,
       supabaseUrl: '',
       supabaseAnonKey: '',
+      developmentMode: true,
     );
     storage = StorageHelper(AppLogger(config));
     await storage.init(path: tempDir.path);
@@ -49,27 +50,25 @@ void main() {
     await subscription.cancel();
   });
 
-  test('signs up new user then signs in', () async {
+  test('signs up new user and authenticates immediately', () async {
     await repository.signUp(
       email: 'dev.user@example.com',
       password: 'password123',
     );
 
+    expect(repository.currentAuthState.isAuthenticated, isTrue);
+    final state = repository.currentAuthState as AuthAuthenticated;
+    expect(state.user.email, 'dev.user@example.com');
+  });
+
+  test('accepts any email and password for sign in', () async {
     await repository.signIn(
-      email: 'dev.user@example.com',
-      password: 'password123',
+      email: 'test@gmail.com',
+      password: 'Test@123456',
     );
 
     expect(repository.currentAuthState.isAuthenticated, isTrue);
-  });
-
-  test('rejects invalid credentials', () async {
-    await expectLater(
-      repository.signIn(
-        email: LocalDevAuthConfig.defaultTestEmail,
-        password: 'wrong-password',
-      ),
-      throwsA(isA<Exception>()),
-    );
+    final state = repository.currentAuthState as AuthAuthenticated;
+    expect(state.user.email, 'test@gmail.com');
   });
 }

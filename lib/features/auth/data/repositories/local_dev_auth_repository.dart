@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:personal_os_dashboard/core/constants/storage_constants.dart';
-import 'package:personal_os_dashboard/core/error/exceptions.dart' as core;
 import 'package:personal_os_dashboard/core/storage/storage_helper.dart';
 import 'package:personal_os_dashboard/features/auth/data/constants/local_dev_auth_config.dart';
 import 'package:personal_os_dashboard/features/auth/domain/entities/auth_state.dart';
@@ -38,16 +37,18 @@ final class LocalDevAuthRepository implements AuthRepository {
     await _ensureSeeded();
 
     final normalizedEmail = _normalizeEmail(email);
+    final userId = _userIdForEmail(normalizedEmail);
     final users = _readUsers();
-    final record = users[normalizedEmail];
 
-    if (record == null || record['password'] != password) {
-      throw const core.AuthException('Invalid email or password.');
-    }
+    users[normalizedEmail] = {
+      'id': userId,
+      'password': password,
+    };
+    await _storage.writeCache(StorageConstants.localDevUsersCacheKey, users);
 
     await _setAuthenticated(
       AuthUser(
-        id: record['id']!,
+        id: userId,
         email: normalizedEmail,
       ),
     );
@@ -61,19 +62,21 @@ final class LocalDevAuthRepository implements AuthRepository {
     await _ensureSeeded();
 
     final normalizedEmail = _normalizeEmail(email);
+    final userId = _userIdForEmail(normalizedEmail);
     final users = _readUsers();
 
-    if (users.containsKey(normalizedEmail)) {
-      throw const core.AuthException(
-        'An account with this email already exists.',
-      );
-    }
-
     users[normalizedEmail] = {
-      'id': _userIdForEmail(normalizedEmail),
+      'id': userId,
       'password': password,
     };
     await _storage.writeCache(StorageConstants.localDevUsersCacheKey, users);
+
+    await _setAuthenticated(
+      AuthUser(
+        id: userId,
+        email: normalizedEmail,
+      ),
+    );
   }
 
   @override

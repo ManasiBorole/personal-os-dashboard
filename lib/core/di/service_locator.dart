@@ -288,7 +288,8 @@ Future<void> configureDependencies(
 
   sl<AppLogger>().info(
     'Core dependencies configured [${config.environment.name}]'
-    '${config.isLocalAuthMode ? ' — local auth enabled' : ''}',
+    '${config.isDevelopmentMode ? ' — development mode (mock auth)' : ''}'
+    '${!config.isDevelopmentMode && config.isLocalAuthMode ? ' — local auth enabled' : ''}',
   );
 }
 

@@ -89,6 +89,10 @@ AuthRepository createAuthRepository({
   required AppConfig config,
   required StorageHelper storageHelper,
 }) {
+  if (config.isDevelopmentMode) {
+    return LocalDevAuthRepository(storageHelper);
+  }
+
   if (isSupabaseReady) {
     return AuthRepositoryImpl(remoteDataSource);
   }

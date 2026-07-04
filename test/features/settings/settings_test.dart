@@ -17,6 +17,7 @@ void main() {
       environment: AppEnvironment.dev,
       supabaseUrl: '',
       supabaseAnonKey: '',
+      developmentMode: false,
     );
     storageHelper = StorageHelper(AppLogger(config));
     await storageHelper.init(

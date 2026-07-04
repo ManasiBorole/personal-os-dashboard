@@ -24,9 +24,16 @@ abstract final class EnvReader {
 
   static String getOrEmpty(String key) => get(key) ?? '';
 
+  /// When true, authentication uses offline mock sessions (no Supabase Auth).
+  static bool get isDevelopmentMode {
+    final value = get('DEVELOPMENT_MODE');
+    return value != null && value.toLowerCase() == 'true';
+  }
+
   static String? _compileTimeValue(String key) {
     return switch (key) {
       'APP_ENV' => EnvDefines.appEnv,
+      'DEVELOPMENT_MODE' => EnvDefines.developmentMode,
       'SUPABASE_URL' => EnvDefines.supabaseUrl,
       'SUPABASE_ANON_KEY' => EnvDefines.supabaseAnonKey,
       'FIREBASE_API_KEY' => EnvDefines.firebaseApiKey,
@@ -44,6 +51,7 @@ abstract final class EnvReader {
   static String? _devFallback(String key) {
     return switch (key) {
       'APP_ENV' => 'dev',
+      'DEVELOPMENT_MODE' => 'true',
       'LOCAL_AUTH_ENABLED' => 'true',
       'DEV_TEST_EMAIL' => 'test@personalos.dev',
       'DEV_TEST_PASSWORD' => 'password123',

@@ -53,7 +53,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
         );
 
     if (success && mounted) {
-      context.go(RouteConstants.login);
+      context.go(RouteConstants.dashboard);
     }
   }
 

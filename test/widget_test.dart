@@ -17,6 +17,7 @@ void main() {
     environment: AppEnvironment.dev,
     supabaseUrl: '',
     supabaseAnonKey: '',
+    developmentMode: true,
   );
 
   setUp(() async {

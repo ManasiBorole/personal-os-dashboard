@@ -3,12 +3,6 @@ import 'package:personal_os_dashboard/core/config/environment.dart';
 
 /// Centralized runtime configuration loaded from environment variables.
 final class AppConfig {
-  const AppConfig({
-    required this.environment,
-    required this.supabaseUrl,
-    required this.supabaseAnonKey,
-  });
-
   factory AppConfig.fromEnv() {
     final environmentName =
         EnvReader.get('APP_ENV') ?? AppEnvironment.dev.name;
@@ -17,17 +11,31 @@ final class AppConfig {
       environment: AppEnvironment.fromString(environmentName),
       supabaseUrl: EnvReader.getOrEmpty('SUPABASE_URL'),
       supabaseAnonKey: EnvReader.getOrEmpty('SUPABASE_ANON_KEY'),
+      developmentMode: EnvReader.isDevelopmentMode,
     );
   }
+
+  const AppConfig({
+    required this.environment,
+    required this.supabaseUrl,
+    required this.supabaseAnonKey,
+    required this.developmentMode,
+  });
 
   final AppEnvironment environment;
   final String supabaseUrl;
   final String supabaseAnonKey;
+  final bool developmentMode;
 
   bool get hasSupabaseCredentials =>
-      supabaseUrl.isNotEmpty && supabaseAnonKey.isNotEmpty;
+      !developmentMode &&
+      supabaseUrl.isNotEmpty &&
+      supabaseAnonKey.isNotEmpty;
+
+  /// Offline mock authentication — skips Supabase Auth entirely.
+  bool get isDevelopmentMode => developmentMode;
 
   /// Uses offline auth when Supabase is unavailable in development.
   bool get isLocalAuthMode =>
-      environment.isDev && !hasSupabaseCredentials;
+      developmentMode || (environment.isDev && !hasSupabaseCredentials);
 }

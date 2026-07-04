@@ -62,6 +62,7 @@ void main() {
         environment: AppEnvironment.dev,
         supabaseUrl: '',
         supabaseAnonKey: '',
+        developmentMode: false,
       );
       errorHandler = ErrorHandler(AppLogger(config));
     });

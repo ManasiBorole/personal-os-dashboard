@@ -22,6 +22,9 @@ import 'package:personal_os_dashboard/features/calendar/presentation/screens/cal
 import 'package:personal_os_dashboard/features/calendar/presentation/screens/calendar_screen.dart';
 import 'package:personal_os_dashboard/features/tasks/presentation/screens/task_form_screen.dart';
 import 'package:personal_os_dashboard/features/tasks/presentation/screens/tasks_screen.dart';
+import 'package:personal_os_dashboard/features/meetings/presentation/screens/meeting_detail_screen.dart';
+import 'package:personal_os_dashboard/features/meetings/presentation/screens/meeting_form_screen.dart';
+import 'package:personal_os_dashboard/features/meetings/presentation/screens/meetings_screen.dart';
 import 'package:personal_os_dashboard/features/profile/presentation/screens/profile_screen.dart';
 
 /// Root navigator key for imperative navigation.
@@ -190,12 +193,38 @@ List<GoRoute> get _protectedRoutes => [
           ),
         ],
       ),
-      _placeholderRoute(
+      GoRoute(
         path: RouteConstants.meetings,
         name: RoutePaths.meetings,
-        title: 'Meetings',
-        description: 'Plan meetings, agendas, and attendees.',
-        icon: Icons.groups_outlined,
+        pageBuilder: (context, state) => const NoTransitionPage(
+          child: MeetingsScreen(),
+        ),
+        routes: [
+          GoRoute(
+            path: 'new',
+            name: RoutePaths.meetingCreate,
+            parentNavigatorKey: rootNavigatorKey,
+            builder: (context, state) => const MeetingFormScreen(),
+          ),
+          GoRoute(
+            path: ':id',
+            name: RoutePaths.meetingDetail,
+            parentNavigatorKey: rootNavigatorKey,
+            builder: (context, state) => MeetingDetailScreen(
+              meetingId: state.pathParameters['id']!,
+            ),
+            routes: [
+              GoRoute(
+                path: 'edit',
+                name: RoutePaths.meetingEdit,
+                parentNavigatorKey: rootNavigatorKey,
+                builder: (context, state) => MeetingFormScreen(
+                  meetingId: state.pathParameters['id'],
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
       _placeholderRoute(
         path: RouteConstants.crm,

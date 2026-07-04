@@ -23,6 +23,8 @@ import 'package:personal_os_dashboard/features/tasks/data/datasources/tasks_data
 import 'package:personal_os_dashboard/features/tasks/domain/repositories/tasks_repository.dart';
 import 'package:personal_os_dashboard/features/calendar/data/datasources/calendar_data_source.dart';
 import 'package:personal_os_dashboard/features/calendar/domain/repositories/calendar_repository.dart';
+import 'package:personal_os_dashboard/features/meetings/data/datasources/meetings_data_source.dart';
+import 'package:personal_os_dashboard/features/meetings/domain/repositories/meetings_repository.dart';
 
 /// Global application configuration provider.
 final appConfigProvider = Provider<AppConfig>((ref) {
@@ -133,4 +135,14 @@ final calendarDataSourceProvider = Provider<CalendarDataSource>((ref) {
 /// Calendar repository provider.
 final calendarRepositoryProvider = Provider<CalendarRepository>((ref) {
   return sl<CalendarRepository>();
+});
+
+/// Meetings data source provider.
+final meetingsDataSourceProvider = Provider<MeetingsDataSource>((ref) {
+  return sl<MeetingsDataSource>();
+});
+
+/// Meetings repository provider.
+final meetingsRepositoryProvider = Provider<MeetingsRepository>((ref) {
+  return sl<MeetingsRepository>();
 });

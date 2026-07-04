@@ -19,6 +19,9 @@ abstract final class RoutePaths {
   static const String calendarCreate = 'calendar-create';
   static const String calendarEdit = 'calendar-edit';
   static const String meetings = 'meetings';
+  static const String meetingCreate = 'meeting-create';
+  static const String meetingDetail = 'meeting-detail';
+  static const String meetingEdit = 'meeting-edit';
   static const String crm = 'crm';
   static const String notes = 'notes';
   static const String documents = 'documents';

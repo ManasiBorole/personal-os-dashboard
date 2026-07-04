@@ -22,6 +22,9 @@ abstract final class RouteConstants {
   static const String calendarCreate = '/calendar/new';
   static const String calendarEdit = '/calendar/:id/edit';
   static const String meetings = '/meetings';
+  static const String meetingCreate = '/meetings/new';
+  static const String meetingDetail = '/meetings/:id';
+  static const String meetingEdit = '/meetings/:id/edit';
   static const String crm = '/crm';
   static const String notes = '/notes';
   static const String documents = '/documents';

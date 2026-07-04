@@ -174,14 +174,6 @@ class _AppDrawer extends StatelessWidget {
   }
 }
 
-int _selectedIndex(String location) {
-  final index = NavigationDestinations.all.indexWhere(
-    (item) => item.path == location,
-  );
-
-  return index < 0 ? 0 : index;
-}
-
 void _onDestinationSelected(
   BuildContext context,
   NavigationDestinationItem item,

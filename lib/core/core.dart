@@ -22,6 +22,7 @@ export 'package:personal_os_dashboard/core/router/navigation_extensions.dart';
 export 'package:personal_os_dashboard/core/router/route_paths.dart';
 export 'package:personal_os_dashboard/core/router/router_guard.dart';
 export 'package:personal_os_dashboard/core/storage/storage_helper.dart';
+export 'package:personal_os_dashboard/core/supabase/supabase.dart';
 export 'package:personal_os_dashboard/core/theme/theme.dart';
 export 'package:personal_os_dashboard/core/utils/utils.dart';
 export 'package:personal_os_dashboard/core/widgets/widgets.dart';

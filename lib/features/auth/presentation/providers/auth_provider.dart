@@ -1,20 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:personal_os_dashboard/core/di/core_providers.dart';
-import 'package:personal_os_dashboard/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:personal_os_dashboard/features/auth/domain/entities/auth_state.dart';
-import 'package:personal_os_dashboard/features/auth/domain/repositories/auth_repository.dart';
-
-/// Provides the active authentication repository.
-final authRepositoryProvider = Provider<AuthRepository>((ref) {
-  final config = ref.watch(appConfigProvider);
-
-  if (config.hasSupabaseCredentials) {
-    return SupabaseAuthRepository();
-  }
-
-  return UnconfiguredAuthRepository();
-});
 
 /// Stream of authentication state changes.
 final authStateProvider = StreamProvider<AuthState>((ref) {

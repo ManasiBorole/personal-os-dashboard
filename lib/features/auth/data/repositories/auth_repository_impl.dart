@@ -1,83 +1,36 @@
-import 'package:supabase_flutter/supabase_flutter.dart' hide AuthState, AuthUser;
-
 import 'package:personal_os_dashboard/core/error/exceptions.dart' as core;
+import 'package:personal_os_dashboard/core/supabase/datasources/auth_remote_datasource.dart';
 import 'package:personal_os_dashboard/features/auth/domain/entities/auth_state.dart';
 import 'package:personal_os_dashboard/features/auth/domain/repositories/auth_repository.dart';
 
-/// Supabase-backed authentication repository.
-final class SupabaseAuthRepository implements AuthRepository {
-  SupabaseAuthRepository({SupabaseClient? client})
-      : _client = client ?? Supabase.instance.client;
+/// Repository implementation delegating to [AuthRemoteDataSource].
+final class AuthRepositoryImpl implements AuthRepository {
+  AuthRepositoryImpl(this._remoteDataSource);
 
-  final SupabaseClient _client;
-
-  @override
-  AuthState get currentAuthState => _mapSession(_client.auth.currentSession);
+  final AuthRemoteDataSource _remoteDataSource;
 
   @override
-  Stream<AuthState> watchAuthState() async* {
-    yield currentAuthState;
+  AuthState get currentAuthState => _remoteDataSource.currentAuthState;
 
-    await for (final event in _client.auth.onAuthStateChange) {
-      yield _mapSession(event.session);
-    }
-  }
+  @override
+  Stream<AuthState> watchAuthState() => _remoteDataSource.watchAuthState();
 
   @override
   Future<void> signIn({
     required String email,
     required String password,
-  }) async {
-    try {
-      await _client.auth.signInWithPassword(
-        email: email.trim(),
-        password: password,
-      );
-    } on AuthException catch (error) {
-      throw core.AuthException(error.message, cause: error);
-    } on Object catch (error) {
-      throw core.AuthException('Sign in failed', cause: error);
-    }
-  }
+  }) =>
+      _remoteDataSource.signIn(email: email, password: password);
 
   @override
   Future<void> signUp({
     required String email,
     required String password,
-  }) async {
-    try {
-      await _client.auth.signUp(
-        email: email.trim(),
-        password: password,
-      );
-    } on AuthException catch (error) {
-      throw core.AuthException(error.message, cause: error);
-    } on Object catch (error) {
-      throw core.AuthException('Sign up failed', cause: error);
-    }
-  }
+  }) =>
+      _remoteDataSource.signUp(email: email, password: password);
 
   @override
-  Future<void> signOut() async {
-    try {
-      await _client.auth.signOut();
-    } on Object catch (error) {
-      throw core.AuthException('Sign out failed', cause: error);
-    }
-  }
-
-  AuthState _mapSession(Session? session) {
-    if (session == null) {
-      return const AuthUnauthenticated();
-    }
-
-    return AuthAuthenticated(
-      AuthUser(
-        id: session.user.id,
-        email: session.user.email,
-      ),
-    );
-  }
+  Future<void> signOut() => _remoteDataSource.signOut();
 }
 
 /// Fallback repository when Supabase is not configured.
@@ -112,4 +65,16 @@ final class UnconfiguredAuthRepository implements AuthRepository {
 
   @override
   Future<void> signOut() async {}
+}
+
+/// Factory for creating the appropriate [AuthRepository].
+AuthRepository createAuthRepository({
+  required bool isSupabaseReady,
+  required AuthRemoteDataSource remoteDataSource,
+}) {
+  if (isSupabaseReady) {
+    return AuthRepositoryImpl(remoteDataSource);
+  }
+
+  return UnconfiguredAuthRepository();
 }

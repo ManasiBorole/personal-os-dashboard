@@ -10,7 +10,6 @@ import 'package:personal_os_dashboard/core/utils/extensions/context_extensions.d
 import 'package:personal_os_dashboard/core/utils/validators.dart';
 import 'package:personal_os_dashboard/core/widgets/buttons/app_button.dart';
 import 'package:personal_os_dashboard/core/widgets/inputs/app_text_field.dart';
-import 'package:personal_os_dashboard/features/auth/presentation/providers/auth_provider.dart';
 
 /// Registration screen for new users.
 class SignupScreen extends ConsumerStatefulWidget {

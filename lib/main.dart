@@ -13,7 +13,11 @@ import 'package:personal_os_dashboard/core/notifications/fcm_service.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await dotenv.load();
+  try {
+    await dotenv.load();
+  } on Object {
+    // Release builds inject configuration via --dart-define-from-file.
+  }
 
   final appConfig = AppConfig.fromEnv();
 

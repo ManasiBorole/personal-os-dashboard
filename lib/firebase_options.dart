@@ -1,7 +1,8 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+import 'package:personal_os_dashboard/core/config/env_reader.dart';
 
 /// Firebase configuration loaded from environment variables.
 ///
@@ -10,19 +11,15 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 /// `FIREBASE_PROJECT_ID`, and optional platform-specific IDs.
 abstract final class DefaultFirebaseOptions {
   static bool get isConfigured {
-    try {
-      final apiKey = dotenv.env['FIREBASE_API_KEY'];
-      final appId = dotenv.env['FIREBASE_APP_ID'];
-      final projectId = dotenv.env['FIREBASE_PROJECT_ID'];
-      return apiKey != null &&
-          apiKey.isNotEmpty &&
-          appId != null &&
-          appId.isNotEmpty &&
-          projectId != null &&
-          projectId.isNotEmpty;
-    } on Object {
-      return false;
-    }
+    final apiKey = EnvReader.get('FIREBASE_API_KEY');
+    final appId = EnvReader.get('FIREBASE_APP_ID');
+    final projectId = EnvReader.get('FIREBASE_PROJECT_ID');
+    return apiKey != null &&
+        apiKey.isNotEmpty &&
+        appId != null &&
+        appId.isNotEmpty &&
+        projectId != null &&
+        projectId.isNotEmpty;
   }
 
   static FirebaseOptions get currentPlatform {
@@ -42,7 +39,7 @@ abstract final class DefaultFirebaseOptions {
         appId: _env('FIREBASE_APP_ID'),
         messagingSenderId: _env('FIREBASE_MESSAGING_SENDER_ID'),
         projectId: _env('FIREBASE_PROJECT_ID'),
-        storageBucket: dotenv.env['FIREBASE_STORAGE_BUCKET'],
+        storageBucket: EnvReader.get('FIREBASE_STORAGE_BUCKET'),
       );
 
   static FirebaseOptions get ios => FirebaseOptions(
@@ -50,8 +47,8 @@ abstract final class DefaultFirebaseOptions {
         appId: _env('FIREBASE_APP_ID'),
         messagingSenderId: _env('FIREBASE_MESSAGING_SENDER_ID'),
         projectId: _env('FIREBASE_PROJECT_ID'),
-        storageBucket: dotenv.env['FIREBASE_STORAGE_BUCKET'],
-        iosBundleId: dotenv.env['FIREBASE_IOS_BUNDLE_ID'],
+        storageBucket: EnvReader.get('FIREBASE_STORAGE_BUCKET'),
+        iosBundleId: EnvReader.get('FIREBASE_IOS_BUNDLE_ID'),
       );
 
   static FirebaseOptions get macos => ios;
@@ -61,9 +58,9 @@ abstract final class DefaultFirebaseOptions {
         appId: _env('FIREBASE_APP_ID'),
         messagingSenderId: _env('FIREBASE_MESSAGING_SENDER_ID'),
         projectId: _env('FIREBASE_PROJECT_ID'),
-        authDomain: dotenv.env['FIREBASE_AUTH_DOMAIN'],
-        storageBucket: dotenv.env['FIREBASE_STORAGE_BUCKET'],
+        authDomain: EnvReader.get('FIREBASE_AUTH_DOMAIN'),
+        storageBucket: EnvReader.get('FIREBASE_STORAGE_BUCKET'),
       );
 
-  static String _env(String key) => dotenv.env[key] ?? '';
+  static String _env(String key) => EnvReader.getOrEmpty(key);
 }

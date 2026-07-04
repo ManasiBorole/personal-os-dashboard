@@ -63,6 +63,8 @@ import 'package:personal_os_dashboard/features/notifications/data/repositories/n
 import 'package:personal_os_dashboard/features/notifications/data/services/notification_coordinator.dart';
 import 'package:personal_os_dashboard/features/notifications/data/services/reminder_scheduler_service.dart';
 import 'package:personal_os_dashboard/features/notifications/domain/repositories/notifications_repository.dart';
+import 'package:personal_os_dashboard/features/settings/data/repositories/settings_repository_impl.dart';
+import 'package:personal_os_dashboard/features/settings/domain/repositories/settings_repository.dart';
 import 'package:personal_os_dashboard/core/notifications/fcm_service.dart';
 import 'package:personal_os_dashboard/core/notifications/local_notification_service.dart';
 
@@ -276,6 +278,9 @@ Future<void> configureDependencies(
       localNotificationService: sl<LocalNotificationService>(),
       reminderScheduler: sl<ReminderSchedulerService>(),
     ),
+  );
+  sl.registerLazySingleton<SettingsRepository>(
+    () => createSettingsRepository(storageHelper: sl<StorageHelper>()),
   );
 
   sl<AppLogger>().info(

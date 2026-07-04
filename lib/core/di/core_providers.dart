@@ -33,6 +33,7 @@ import 'package:personal_os_dashboard/features/documents/data/datasources/docume
 import 'package:personal_os_dashboard/features/documents/domain/repositories/documents_repository.dart';
 import 'package:personal_os_dashboard/features/analytics/domain/repositories/analytics_repository.dart';
 import 'package:personal_os_dashboard/features/notifications/domain/repositories/notifications_repository.dart';
+import 'package:personal_os_dashboard/features/settings/domain/repositories/settings_repository.dart';
 
 /// Global application configuration provider.
 final appConfigProvider = Provider<AppConfig>((ref) {
@@ -193,4 +194,9 @@ final analyticsRepositoryProvider = Provider<AnalyticsRepository>((ref) {
 /// Notifications repository provider.
 final notificationsRepositoryProvider = Provider<NotificationsRepository>((ref) {
   return sl<NotificationsRepository>();
+});
+
+/// Settings repository provider.
+final settingsRepositoryProvider = Provider<SettingsRepository>((ref) {
+  return sl<SettingsRepository>();
 });

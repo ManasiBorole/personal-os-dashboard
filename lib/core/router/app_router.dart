@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 
 import 'package:personal_os_dashboard/core/constants/route_constants.dart';
 import 'package:personal_os_dashboard/core/navigation/app_shell.dart';
-import 'package:personal_os_dashboard/core/navigation/feature_placeholder_screen.dart';
 import 'package:personal_os_dashboard/core/router/go_router_refresh_notifier.dart';
 import 'package:personal_os_dashboard/core/router/route_paths.dart';
 import 'package:personal_os_dashboard/core/router/router_guard.dart';
@@ -35,6 +34,14 @@ import 'package:personal_os_dashboard/features/documents/presentation/screens/do
 import 'package:personal_os_dashboard/features/documents/presentation/screens/documents_screen.dart';
 import 'package:personal_os_dashboard/features/analytics/presentation/screens/analytics_screen.dart';
 import 'package:personal_os_dashboard/features/notifications/presentation/screens/notifications_screen.dart';
+import 'package:personal_os_dashboard/features/settings/presentation/screens/backup_settings_screen.dart';
+import 'package:personal_os_dashboard/features/settings/presentation/screens/edit_profile_screen.dart';
+import 'package:personal_os_dashboard/features/settings/presentation/screens/language_settings_screen.dart';
+import 'package:personal_os_dashboard/features/settings/presentation/screens/notification_settings_screen.dart';
+import 'package:personal_os_dashboard/features/settings/presentation/screens/privacy_settings_screen.dart';
+import 'package:personal_os_dashboard/features/settings/presentation/screens/security_settings_screen.dart';
+import 'package:personal_os_dashboard/features/settings/presentation/screens/settings_screen.dart';
+import 'package:personal_os_dashboard/features/settings/presentation/screens/theme_settings_screen.dart';
 import 'package:personal_os_dashboard/features/profile/presentation/screens/profile_screen.dart';
 
 /// Root navigator key for imperative navigation.
@@ -337,12 +344,56 @@ List<GoRoute> get _protectedRoutes => [
           child: NotificationsScreen(),
         ),
       ),
-      _placeholderRoute(
+      GoRoute(
         path: RouteConstants.settings,
         name: RoutePaths.settings,
-        title: 'Settings',
-        description: 'Configure your account and preferences.',
-        icon: Icons.settings_outlined,
+        pageBuilder: (context, state) => const NoTransitionPage(
+          child: SettingsScreen(),
+        ),
+        routes: [
+          GoRoute(
+            path: 'profile/edit',
+            name: RoutePaths.settingsEditProfile,
+            parentNavigatorKey: rootNavigatorKey,
+            builder: (context, state) => const EditProfileScreen(),
+          ),
+          GoRoute(
+            path: 'theme',
+            name: RoutePaths.settingsTheme,
+            parentNavigatorKey: rootNavigatorKey,
+            builder: (context, state) => const ThemeSettingsScreen(),
+          ),
+          GoRoute(
+            path: 'security',
+            name: RoutePaths.settingsSecurity,
+            parentNavigatorKey: rootNavigatorKey,
+            builder: (context, state) => const SecuritySettingsScreen(),
+          ),
+          GoRoute(
+            path: 'backup',
+            name: RoutePaths.settingsBackup,
+            parentNavigatorKey: rootNavigatorKey,
+            builder: (context, state) => const BackupSettingsScreen(),
+          ),
+          GoRoute(
+            path: 'language',
+            name: RoutePaths.settingsLanguage,
+            parentNavigatorKey: rootNavigatorKey,
+            builder: (context, state) => const LanguageSettingsScreen(),
+          ),
+          GoRoute(
+            path: 'notification-preferences',
+            name: RoutePaths.settingsNotificationPrefs,
+            parentNavigatorKey: rootNavigatorKey,
+            builder: (context, state) => const NotificationSettingsScreen(),
+          ),
+          GoRoute(
+            path: 'privacy',
+            name: RoutePaths.settingsPrivacy,
+            parentNavigatorKey: rootNavigatorKey,
+            builder: (context, state) => const PrivacySettingsScreen(),
+          ),
+        ],
       ),
       GoRoute(
         path: RouteConstants.profile,
@@ -352,23 +403,3 @@ List<GoRoute> get _protectedRoutes => [
         ),
       ),
     ];
-
-GoRoute _placeholderRoute({
-  required String path,
-  required String name,
-  required String title,
-  required String description,
-  required IconData icon,
-}) {
-  return GoRoute(
-    path: path,
-    name: name,
-    pageBuilder: (context, state) => NoTransitionPage(
-      child: FeaturePlaceholderScreen(
-        title: title,
-        description: description,
-        icon: icon,
-      ),
-    ),
-  );
-}

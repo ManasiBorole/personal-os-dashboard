@@ -11,6 +11,9 @@ abstract final class StorageConstants {
   static const String lastSyncTimestampKey = 'last_sync_timestamp';
   static const String biometricEnabledKey = 'biometric_enabled';
   static const String notificationsEnabledKey = 'notifications_enabled';
+  static const String autoBackupEnabledKey = 'auto_backup_enabled';
+  static const String analyticsEnabledKey = 'analytics_enabled';
+  static const String profileVisibilityKey = 'profile_visibility';
 
   // Secure storage keys
   static const String accessTokenKey = 'access_token';

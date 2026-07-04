@@ -36,5 +36,12 @@ abstract final class RoutePaths {
   static const String analytics = 'analytics';
   static const String notifications = 'notifications';
   static const String settings = 'settings';
+  static const String settingsEditProfile = 'settings-edit-profile';
+  static const String settingsTheme = 'settings-theme';
+  static const String settingsSecurity = 'settings-security';
+  static const String settingsBackup = 'settings-backup';
+  static const String settingsLanguage = 'settings-language';
+  static const String settingsNotificationPrefs = 'settings-notification-preferences';
+  static const String settingsPrivacy = 'settings-privacy';
   static const String profile = 'profile';
 }

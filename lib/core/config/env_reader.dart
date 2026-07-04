@@ -44,6 +44,13 @@ abstract final class EnvReader {
   static String? _devFallback(String key) {
     return switch (key) {
       'APP_ENV' => 'dev',
+      'SUPABASE_URL' => '',
+      'SUPABASE_ANON_KEY' => '',
+      'FIREBASE_API_KEY' => '',
+      'FIREBASE_APP_ID' => '',
+      'FIREBASE_MESSAGING_SENDER_ID' => '',
+      'FIREBASE_PROJECT_ID' => '',
+      'FIREBASE_STORAGE_BUCKET' => '',
       _ => null,
     };
   }

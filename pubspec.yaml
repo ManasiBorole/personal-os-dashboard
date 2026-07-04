@@ -72,7 +72,7 @@ flutter:
   uses-material-design: true
 
   assets:
-    - .env
+    - assets/env/development.env
 
   fonts:
     - family: Inter

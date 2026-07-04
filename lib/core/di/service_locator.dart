@@ -277,6 +277,7 @@ Future<void> configureDependencies(
       fcmService: sl<FcmService>(),
       localNotificationService: sl<LocalNotificationService>(),
       reminderScheduler: sl<ReminderSchedulerService>(),
+      storageHelper: sl<StorageHelper>(),
     ),
   );
   sl.registerLazySingleton<SettingsRepository>(

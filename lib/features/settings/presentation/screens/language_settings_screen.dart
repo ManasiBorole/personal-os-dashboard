@@ -28,14 +28,19 @@ class LanguageSettingsScreen extends ConsumerWidget {
             ),
             const SizedBox(height: AppSpacing.lg),
             ...AppLanguage.values.map(
-              (language) => RadioListTile<AppLanguage>(
-                value: language,
-                groupValue: preferences.language,
+              (language) => ListTile(
                 title: Text(language.label),
                 subtitle: Text(language.locale.toLanguageTag()),
-                onChanged: (value) async {
-                  if (value == null) return;
-                  await ref.read(localeProvider.notifier).setLanguage(value);
+                selected: preferences.language == language,
+                trailing: preferences.language == language
+                    ? Icon(
+                        Icons.check_circle,
+                        color: Theme.of(context).colorScheme.primary,
+                      )
+                    : null,
+                onTap: () async {
+                  if (preferences.language == language) return;
+                  await ref.read(localeProvider.notifier).setLanguage(language);
                 },
               ),
             ),

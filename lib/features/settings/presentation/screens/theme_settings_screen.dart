@@ -28,14 +28,19 @@ class ThemeSettingsScreen extends ConsumerWidget {
             ),
             const SizedBox(height: AppSpacing.lg),
             ...AppThemePreference.values.map(
-              (theme) => RadioListTile<AppThemePreference>(
-                value: theme,
-                groupValue: preferences.theme,
+              (theme) => ListTile(
                 title: Text(theme.label),
                 subtitle: Text(_subtitleFor(theme)),
-                onChanged: (value) async {
-                  if (value == null) return;
-                  await ref.read(themeModeProvider.notifier).setTheme(value);
+                selected: preferences.theme == theme,
+                trailing: preferences.theme == theme
+                    ? Icon(
+                        Icons.check_circle,
+                        color: Theme.of(context).colorScheme.primary,
+                      )
+                    : null,
+                onTap: () async {
+                  if (preferences.theme == theme) return;
+                  await ref.read(themeModeProvider.notifier).setTheme(theme);
                 },
               ),
             ),

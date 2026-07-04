@@ -72,19 +72,9 @@ final unreadNotificationCountProvider = FutureProvider<int>((ref) async {
   );
 });
 
-final reminderSyncProvider = FutureProvider<void>((ref) async {
-  final userId = ref.watch(currentUserProvider)?.id ?? 'local-user';
-  await ref.read(notificationCoordinatorProvider).syncReminders(userId: userId);
-  ref.invalidate(notificationsListProvider);
-  ref.invalidate(unreadNotificationCountProvider);
-});
-
 class NotificationsListController extends AsyncNotifier<List<AppNotification>> {
   @override
-  Future<List<AppNotification>> build() async {
-    ref.watch(reminderSyncProvider);
-    return _load();
-  }
+  Future<List<AppNotification>> build() => _load();
 
   Future<void> refresh() async {
     state = const AsyncLoading();

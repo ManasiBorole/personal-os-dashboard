@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:personal_os_dashboard/core/constants/route_constants.dart';
+import 'package:personal_os_dashboard/core/di/core_providers.dart';
 import 'package:personal_os_dashboard/core/navigation/app_shell.dart';
 import 'package:personal_os_dashboard/core/router/go_router_refresh_notifier.dart';
 import 'package:personal_os_dashboard/core/router/route_paths.dart';
@@ -53,11 +54,12 @@ final shellNavigatorKey = GlobalKey<NavigatorState>();
 /// GoRouter configuration with authentication route protection.
 final appRouterProvider = Provider<GoRouter>((ref) {
   final refreshNotifier = ref.watch(goRouterRefreshNotifierProvider);
+  final appConfig = ref.watch(appConfigProvider);
 
   return GoRouter(
     navigatorKey: rootNavigatorKey,
     initialLocation: RouteConstants.splash,
-    debugLogDiagnostics: true,
+    debugLogDiagnostics: !appConfig.environment.isProd,
     refreshListenable: refreshNotifier,
     redirect: (context, state) => RouterGuard.resolve(ref: ref, state: state),
     routes: [

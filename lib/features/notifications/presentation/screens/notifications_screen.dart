@@ -32,10 +32,7 @@ class NotificationsScreen extends ConsumerWidget {
           final filtered = _filterNotifications(notifications, filter);
 
           return RefreshIndicator(
-            onRefresh: () async {
-              await ref.read(notificationsListProvider.notifier).refresh();
-              await ref.read(reminderSyncProvider.future);
-            },
+            onRefresh: () => ref.read(notificationsListProvider.notifier).refresh(),
             child: CustomScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
               slivers: [
@@ -183,7 +180,7 @@ class NotificationsScreen extends ConsumerWidget {
 
     final route = notification.routePath;
     if (route != null && route.isNotEmpty && context.mounted) {
-      context.push(route);
+      await context.push(route);
     }
   }
 }

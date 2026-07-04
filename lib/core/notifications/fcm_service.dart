@@ -158,6 +158,8 @@ final class FcmService {
       }
     }
 
+    if (!_arePushNotificationsEnabled()) return;
+
     await _localNotificationService.showNotification(
       inboxNotification ??
           AppNotification(
@@ -179,6 +181,13 @@ final class FcmService {
 
   Future<void> dispose() async {
     await _tokenRefreshSubscription?.cancel();
+  }
+
+  bool _arePushNotificationsEnabled() {
+    return _storageHelper.readSetting<bool>(
+          StorageConstants.notificationsEnabledKey,
+        ) ??
+        true;
   }
 }
 

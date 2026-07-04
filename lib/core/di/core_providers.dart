@@ -29,6 +29,8 @@ import 'package:personal_os_dashboard/features/crm/data/datasources/crm_data_sou
 import 'package:personal_os_dashboard/features/crm/domain/repositories/crm_repository.dart';
 import 'package:personal_os_dashboard/features/notes/data/datasources/notes_data_source.dart';
 import 'package:personal_os_dashboard/features/notes/domain/repositories/notes_repository.dart';
+import 'package:personal_os_dashboard/features/documents/data/datasources/documents_data_source.dart';
+import 'package:personal_os_dashboard/features/documents/domain/repositories/documents_repository.dart';
 
 /// Global application configuration provider.
 final appConfigProvider = Provider<AppConfig>((ref) {
@@ -169,4 +171,14 @@ final notesDataSourceProvider = Provider<NotesDataSource>((ref) {
 /// Notes repository provider.
 final notesRepositoryProvider = Provider<NotesRepository>((ref) {
   return sl<NotesRepository>();
+});
+
+/// Documents data source provider.
+final documentsDataSourceProvider = Provider<DocumentsDataSource>((ref) {
+  return sl<DocumentsDataSource>();
+});
+
+/// Documents repository provider.
+final documentsRepositoryProvider = Provider<DocumentsRepository>((ref) {
+  return sl<DocumentsRepository>();
 });

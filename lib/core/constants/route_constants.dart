@@ -35,6 +35,7 @@ abstract final class RouteConstants {
   static const String noteCreate = '/notes/new';
   static const String noteEdit = '/notes/:id/edit';
   static const String documents = '/documents';
+  static const String documentPreview = '/documents/:id/preview';
   static const String analytics = '/analytics';
   static const String notifications = '/notifications';
   static const String settings = '/settings';

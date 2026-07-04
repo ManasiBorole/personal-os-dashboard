@@ -32,6 +32,7 @@ abstract final class RoutePaths {
   static const String noteCreate = 'note-create';
   static const String noteEdit = 'note-edit';
   static const String documents = 'documents';
+  static const String documentPreview = 'document-preview';
   static const String analytics = 'analytics';
   static const String notifications = 'notifications';
   static const String settings = 'settings';

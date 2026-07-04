@@ -50,6 +50,11 @@ import 'package:personal_os_dashboard/features/notes/data/datasources/supabase_n
 import 'package:personal_os_dashboard/features/notes/data/repositories/notes_repository_impl.dart';
 import 'package:personal_os_dashboard/features/notes/data/services/note_attachment_storage.dart';
 import 'package:personal_os_dashboard/features/notes/domain/repositories/notes_repository.dart';
+import 'package:personal_os_dashboard/features/documents/data/datasources/documents_data_source.dart';
+import 'package:personal_os_dashboard/features/documents/data/datasources/supabase_documents_data_source.dart';
+import 'package:personal_os_dashboard/features/documents/data/repositories/documents_repository_impl.dart';
+import 'package:personal_os_dashboard/features/documents/data/services/document_storage_service.dart';
+import 'package:personal_os_dashboard/features/documents/domain/repositories/documents_repository.dart';
 
 /// Global service locator instance.
 final GetIt sl = GetIt.instance;
@@ -147,6 +152,9 @@ Future<void> configureDependencies(
   sl.registerLazySingleton<NotesDataSource>(
     () => SupabaseNotesDataSource(sl<DatabaseRemoteDataSource>()),
   );
+  sl.registerLazySingleton<DocumentsDataSource>(
+    () => SupabaseDocumentsDataSource(sl<DatabaseRemoteDataSource>()),
+  );
 
   // Repositories
   sl.registerLazySingleton<AuthRepository>(
@@ -204,6 +212,13 @@ Future<void> configureDependencies(
       isSupabaseReady: sl<SupabaseService>().isInitialized,
       remoteDataSource: sl<NotesDataSource>(),
       attachmentStorage: NoteAttachmentStorage(sl<FileStorageRepository>()),
+    ),
+  );
+  sl.registerLazySingleton<DocumentsRepository>(
+    () => createDocumentsRepository(
+      isSupabaseReady: sl<SupabaseService>().isInitialized,
+      remoteDataSource: sl<DocumentsDataSource>(),
+      storageService: DocumentStorageService(sl<FileStorageRepository>()),
     ),
   );
 

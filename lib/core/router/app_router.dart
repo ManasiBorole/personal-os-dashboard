@@ -31,6 +31,8 @@ import 'package:personal_os_dashboard/features/crm/presentation/screens/contact_
 import 'package:personal_os_dashboard/features/crm/presentation/screens/crm_screen.dart';
 import 'package:personal_os_dashboard/features/notes/presentation/screens/note_form_screen.dart';
 import 'package:personal_os_dashboard/features/notes/presentation/screens/notes_screen.dart';
+import 'package:personal_os_dashboard/features/documents/presentation/screens/document_preview_screen.dart';
+import 'package:personal_os_dashboard/features/documents/presentation/screens/documents_screen.dart';
 import 'package:personal_os_dashboard/features/profile/presentation/screens/profile_screen.dart';
 
 /// Root navigator key for imperative navigation.
@@ -302,12 +304,22 @@ List<GoRoute> get _protectedRoutes => [
           ),
         ],
       ),
-      _placeholderRoute(
+      GoRoute(
         path: RouteConstants.documents,
         name: RoutePaths.documents,
-        title: 'Documents',
-        description: 'Store and organize files.',
-        icon: Icons.description_outlined,
+        pageBuilder: (context, state) => const NoTransitionPage(
+          child: DocumentsScreen(),
+        ),
+        routes: [
+          GoRoute(
+            path: ':id/preview',
+            name: RoutePaths.documentPreview,
+            parentNavigatorKey: rootNavigatorKey,
+            builder: (context, state) => DocumentPreviewScreen(
+              documentId: state.pathParameters['id']!,
+            ),
+          ),
+        ],
       ),
       _placeholderRoute(
         path: RouteConstants.analytics,

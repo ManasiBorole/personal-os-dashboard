@@ -33,6 +33,7 @@ import 'package:personal_os_dashboard/features/notes/presentation/screens/note_f
 import 'package:personal_os_dashboard/features/notes/presentation/screens/notes_screen.dart';
 import 'package:personal_os_dashboard/features/documents/presentation/screens/document_preview_screen.dart';
 import 'package:personal_os_dashboard/features/documents/presentation/screens/documents_screen.dart';
+import 'package:personal_os_dashboard/features/analytics/presentation/screens/analytics_screen.dart';
 import 'package:personal_os_dashboard/features/profile/presentation/screens/profile_screen.dart';
 
 /// Root navigator key for imperative navigation.
@@ -321,12 +322,12 @@ List<GoRoute> get _protectedRoutes => [
           ),
         ],
       ),
-      _placeholderRoute(
+      GoRoute(
         path: RouteConstants.analytics,
         name: RoutePaths.analytics,
-        title: 'Analytics',
-        description: 'Review productivity insights and trends.',
-        icon: Icons.analytics_outlined,
+        pageBuilder: (context, state) => const NoTransitionPage(
+          child: AnalyticsScreen(),
+        ),
       ),
       _placeholderRoute(
         path: RouteConstants.notifications,

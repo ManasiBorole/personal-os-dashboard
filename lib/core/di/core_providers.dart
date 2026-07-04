@@ -31,6 +31,7 @@ import 'package:personal_os_dashboard/features/notes/data/datasources/notes_data
 import 'package:personal_os_dashboard/features/notes/domain/repositories/notes_repository.dart';
 import 'package:personal_os_dashboard/features/documents/data/datasources/documents_data_source.dart';
 import 'package:personal_os_dashboard/features/documents/domain/repositories/documents_repository.dart';
+import 'package:personal_os_dashboard/features/analytics/domain/repositories/analytics_repository.dart';
 
 /// Global application configuration provider.
 final appConfigProvider = Provider<AppConfig>((ref) {
@@ -181,4 +182,9 @@ final documentsDataSourceProvider = Provider<DocumentsDataSource>((ref) {
 /// Documents repository provider.
 final documentsRepositoryProvider = Provider<DocumentsRepository>((ref) {
   return sl<DocumentsRepository>();
+});
+
+/// Analytics repository provider.
+final analyticsRepositoryProvider = Provider<AnalyticsRepository>((ref) {
+  return sl<AnalyticsRepository>();
 });

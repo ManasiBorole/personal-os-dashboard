@@ -55,6 +55,8 @@ import 'package:personal_os_dashboard/features/documents/data/datasources/supaba
 import 'package:personal_os_dashboard/features/documents/data/repositories/documents_repository_impl.dart';
 import 'package:personal_os_dashboard/features/documents/data/services/document_storage_service.dart';
 import 'package:personal_os_dashboard/features/documents/domain/repositories/documents_repository.dart';
+import 'package:personal_os_dashboard/features/analytics/data/repositories/analytics_repository_impl.dart';
+import 'package:personal_os_dashboard/features/analytics/domain/repositories/analytics_repository.dart';
 
 /// Global service locator instance.
 final GetIt sl = GetIt.instance;
@@ -219,6 +221,14 @@ Future<void> configureDependencies(
       isSupabaseReady: sl<SupabaseService>().isInitialized,
       remoteDataSource: sl<DocumentsDataSource>(),
       storageService: DocumentStorageService(sl<FileStorageRepository>()),
+    ),
+  );
+  sl.registerLazySingleton<AnalyticsRepository>(
+    () => createAnalyticsRepository(
+      tasksRepository: sl<TasksRepository>(),
+      goalsRepository: sl<GoalsRepository>(),
+      projectsRepository: sl<ProjectsRepository>(),
+      meetingsRepository: sl<MeetingsRepository>(),
     ),
   );
 

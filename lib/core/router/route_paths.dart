@@ -29,6 +29,8 @@ abstract final class RoutePaths {
   static const String companyCreate = 'company-create';
   static const String companyEdit = 'company-edit';
   static const String notes = 'notes';
+  static const String noteCreate = 'note-create';
+  static const String noteEdit = 'note-edit';
   static const String documents = 'documents';
   static const String analytics = 'analytics';
   static const String notifications = 'notifications';

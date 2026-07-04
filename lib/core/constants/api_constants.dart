@@ -15,5 +15,6 @@ abstract final class ApiConstants {
 
   static const String documentsBucket = 'documents';
   static const String visitingCardsBucket = 'visiting-cards';
+  static const String noteAttachmentsBucket = 'note-attachments';
   static const String avatarsBucket = 'avatars';
 }

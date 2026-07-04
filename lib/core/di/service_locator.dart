@@ -45,6 +45,11 @@ import 'package:personal_os_dashboard/features/crm/data/datasources/supabase_crm
 import 'package:personal_os_dashboard/features/crm/data/repositories/crm_repository_impl.dart';
 import 'package:personal_os_dashboard/features/crm/data/services/visiting_card_storage.dart';
 import 'package:personal_os_dashboard/features/crm/domain/repositories/crm_repository.dart';
+import 'package:personal_os_dashboard/features/notes/data/datasources/notes_data_source.dart';
+import 'package:personal_os_dashboard/features/notes/data/datasources/supabase_notes_data_source.dart';
+import 'package:personal_os_dashboard/features/notes/data/repositories/notes_repository_impl.dart';
+import 'package:personal_os_dashboard/features/notes/data/services/note_attachment_storage.dart';
+import 'package:personal_os_dashboard/features/notes/domain/repositories/notes_repository.dart';
 
 /// Global service locator instance.
 final GetIt sl = GetIt.instance;
@@ -139,6 +144,9 @@ Future<void> configureDependencies(
   sl.registerLazySingleton<CrmDataSource>(
     () => SupabaseCrmDataSource(sl<DatabaseRemoteDataSource>()),
   );
+  sl.registerLazySingleton<NotesDataSource>(
+    () => SupabaseNotesDataSource(sl<DatabaseRemoteDataSource>()),
+  );
 
   // Repositories
   sl.registerLazySingleton<AuthRepository>(
@@ -189,6 +197,13 @@ Future<void> configureDependencies(
       isSupabaseReady: sl<SupabaseService>().isInitialized,
       remoteDataSource: sl<CrmDataSource>(),
       visitingCardStorage: VisitingCardStorage(sl<FileStorageRepository>()),
+    ),
+  );
+  sl.registerLazySingleton<NotesRepository>(
+    () => createNotesRepository(
+      isSupabaseReady: sl<SupabaseService>().isInitialized,
+      remoteDataSource: sl<NotesDataSource>(),
+      attachmentStorage: NoteAttachmentStorage(sl<FileStorageRepository>()),
     ),
   );
 

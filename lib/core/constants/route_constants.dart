@@ -32,6 +32,8 @@ abstract final class RouteConstants {
   static const String companyCreate = '/crm/companies/new';
   static const String companyEdit = '/crm/companies/:id/edit';
   static const String notes = '/notes';
+  static const String noteCreate = '/notes/new';
+  static const String noteEdit = '/notes/:id/edit';
   static const String documents = '/documents';
   static const String analytics = '/analytics';
   static const String notifications = '/notifications';

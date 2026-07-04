@@ -1,0 +1,9 @@
+export 'package:personal_os_dashboard/core/supabase/data/repositories/file_storage_repository_impl.dart';
+export 'package:personal_os_dashboard/core/supabase/datasources/auth_remote_datasource.dart';
+export 'package:personal_os_dashboard/core/supabase/datasources/supabase_remote_datasources.dart';
+export 'package:personal_os_dashboard/core/supabase/domain/repositories/file_storage_repository.dart';
+export 'package:personal_os_dashboard/core/supabase/services/auth_service.dart';
+export 'package:personal_os_dashboard/core/supabase/services/database_service.dart';
+export 'package:personal_os_dashboard/core/supabase/services/storage_service.dart';
+export 'package:personal_os_dashboard/core/supabase/supabase_exception.dart';
+export 'package:personal_os_dashboard/core/supabase/supabase_service.dart';

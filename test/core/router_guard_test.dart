@@ -42,6 +42,28 @@ void main() {
       expect(redirect, isNull);
     });
 
+    test('redirects authenticated users away from forgot password', () {
+      final redirect = RouterGuard.resolveFromAsync(
+        const AsyncData(
+          AuthAuthenticated(
+            AuthUser(id: 'user-1', email: 'user@example.com'),
+          ),
+        ),
+        RouteConstants.forgotPassword,
+      );
+
+      expect(redirect, RouteConstants.dashboard);
+    });
+
+    test('allows unauthenticated access to forgot password', () {
+      final redirect = RouterGuard.resolveFromAsync(
+        const AsyncData(AuthUnauthenticated()),
+        RouteConstants.forgotPassword,
+      );
+
+      expect(redirect, isNull);
+    });
+
     test('sends loading users to splash', () {
       final redirect = RouterGuard.resolveFromAsync(
         const AsyncLoading<AuthState>(),

@@ -4,6 +4,7 @@ abstract final class RouteConstants {
   static const String splash = '/';
   static const String login = '/login';
   static const String signup = '/signup';
+  static const String forgotPassword = '/forgot-password';
 
   // Protected routes
   static const String dashboard = '/dashboard';
@@ -25,6 +26,7 @@ abstract final class RouteConstants {
     splash,
     login,
     signup,
+    forgotPassword,
   };
 
   /// Routes that require an authenticated session.

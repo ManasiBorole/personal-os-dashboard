@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:personal_os_dashboard/core/constants/app_constants.dart';
 import 'package:personal_os_dashboard/core/constants/route_constants.dart';
 import 'package:personal_os_dashboard/core/theme/app_spacing.dart';
 import 'package:personal_os_dashboard/core/utils/extensions/context_extensions.dart';
@@ -17,109 +16,85 @@ import 'package:personal_os_dashboard/features/auth/presentation/widgets/auth_he
 import 'package:personal_os_dashboard/features/auth/presentation/widgets/auth_scaffold.dart';
 import 'package:personal_os_dashboard/features/auth/presentation/widgets/auth_status_banner.dart';
 
-/// Registration screen for new users.
-class SignupScreen extends ConsumerStatefulWidget {
-  const SignupScreen({super.key});
+/// Password recovery screen.
+class ForgotPasswordScreen extends ConsumerStatefulWidget {
+  const ForgotPasswordScreen({super.key});
 
   @override
-  ConsumerState<SignupScreen> createState() => _SignupScreenState();
+  ConsumerState<ForgotPasswordScreen> createState() =>
+      _ForgotPasswordScreenState();
 }
 
-class _SignupScreenState extends ConsumerState<SignupScreen> {
+class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
 
   @override
   void dispose() {
     _emailController.dispose();
-    _passwordController.dispose();
-    _confirmPasswordController.dispose();
     super.dispose();
   }
 
   Future<void> _submit() async {
     context.hideKeyboard();
-    ref.read(signupControllerProvider.notifier).clearStatus();
+    ref.read(forgotPasswordControllerProvider.notifier).clearStatus();
 
     if (!_formKey.currentState!.validate()) {
       return;
     }
 
-    final success = await ref.read(signupControllerProvider.notifier).signUp(
+    await ref.read(forgotPasswordControllerProvider.notifier).resetPassword(
           email: _emailController.text,
-          password: _passwordController.text,
         );
-
-    if (success && mounted) {
-      context.go(RouteConstants.login);
-    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final formState = ref.watch(signupControllerProvider);
+    final formState = ref.watch(forgotPasswordControllerProvider);
 
     return AuthScaffold(
+      showBackButton: true,
       child: AuthFormCard(
         child: Form(
           key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              AuthHeader(
-                title: 'Create your account',
-                subtitle: 'Start organizing your life with ${AppConstants.appName}',
+              const AuthHeader(
+                title: 'Reset password',
+                subtitle:
+                    'Enter your email and we\'ll send you a link to reset your password.',
               ),
               const SizedBox(height: AppSpacing.xl),
               AuthStatusBanner(
                 state: formState,
-                onDismiss: () =>
-                    ref.read(signupControllerProvider.notifier).clearStatus(),
+                onDismiss: () => ref
+                    .read(forgotPasswordControllerProvider.notifier)
+                    .clearStatus(),
               ),
               AppTextField(
                 controller: _emailController,
                 label: 'Email address',
                 hint: 'you@company.com',
                 keyboardType: TextInputType.emailAddress,
-                textInputAction: TextInputAction.next,
+                textInputAction: TextInputAction.done,
                 autocorrect: false,
                 enabled: !formState.isLoading,
                 validator: Validators.email,
-                prefixIcon: const Icon(Icons.email_outlined),
-              ),
-              const SizedBox(height: AppSpacing.lg),
-              PasswordField(
-                controller: _passwordController,
-                label: 'Password',
-                textInputAction: TextInputAction.next,
-                enabled: !formState.isLoading,
-                validator: Validators.strongPassword,
-              ),
-              const SizedBox(height: AppSpacing.lg),
-              PasswordField(
-                controller: _confirmPasswordController,
-                label: 'Confirm password',
-                textInputAction: TextInputAction.done,
-                enabled: !formState.isLoading,
-                validator: (value) => Validators.confirmPassword(
-                  value,
-                  _passwordController.text,
-                ),
                 onSubmitted: (_) => _submit(),
+                prefixIcon: const Icon(Icons.email_outlined),
               ),
               const SizedBox(height: AppSpacing.xxl),
               AppButton(
-                label: 'Create Account',
+                label: 'Send Reset Link',
                 isLoading: formState.isLoading,
                 isExpanded: true,
                 onPressed: formState.isLoading ? null : _submit,
               ),
               const SizedBox(height: AppSpacing.lg),
               AuthLinkRow(
-                prompt: 'Already have an account?',
-                actionLabel: 'Sign in',
+                prompt: 'Remember your password?',
+                actionLabel: 'Back to sign in',
                 onPressed: formState.isLoading
                     ? () {}
                     : () => context.go(RouteConstants.login),

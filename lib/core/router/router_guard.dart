@@ -65,7 +65,9 @@ abstract final class RouterGuard {
       return RouteConstants.login;
     }
 
-    if (location == RouteConstants.login || location == RouteConstants.signup) {
+    if (location == RouteConstants.login ||
+        location == RouteConstants.signup ||
+        location == RouteConstants.forgotPassword) {
       return RouteConstants.dashboard;
     }
 

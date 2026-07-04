@@ -2,102 +2,95 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:personal_os_dashboard/core/constants/route_constants.dart';
-import 'package:personal_os_dashboard/core/di/core_providers.dart';
-import 'package:personal_os_dashboard/core/theme/app_spacing.dart';
-import 'package:personal_os_dashboard/core/utils/extensions/context_extensions.dart';
-import 'package:personal_os_dashboard/core/widgets/buttons/app_button.dart';
+import 'package:personal_os_dashboard/core/router/route_paths.dart';
+import 'package:personal_os_dashboard/features/auth/domain/entities/auth_form_state.dart';
 import 'package:personal_os_dashboard/features/auth/presentation/providers/auth_provider.dart';
+import 'package:personal_os_dashboard/features/auth/presentation/widgets/auth_status_banner.dart';
 
-/// User profile screen with session details and sign-out.
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(currentUserProvider);
+    final logoutState = ref.watch(logoutControllerProvider);
+    final theme = Theme.of(context);
 
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(AppSpacing.xl),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    ref.listen<AuthFormState>(logoutControllerProvider, (previous, next) {
+      if (next is AuthFormSuccess) {
+        context.go(RoutePaths.login);
+      }
+    });
+
+    return Scaffold(
+      appBar: AppBar(title: const Text('Profile')),
+      body: ListView(
+        padding: const EdgeInsets.all(24),
         children: [
-          Center(
-            child: CircleAvatar(
-              radius: 40,
-              child: Text(
-                (user?.email?.isNotEmpty ?? false)
-                    ? user!.email![0].toUpperCase()
-                    : '?',
-                style: Theme.of(context).textTheme.headlineMedium,
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    radius: 32,
+                    backgroundColor: theme.colorScheme.primaryContainer,
+                    child: Text(
+                      (user?.email?.substring(0, 1).toUpperCase() ?? '?'),
+                      style: theme.textTheme.headlineSmall?.copyWith(
+                        color: theme.colorScheme.onPrimaryContainer,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          user?.email ?? 'Guest',
+                          style: theme.textTheme.titleMedium,
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          user?.id ?? 'Not signed in',
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
-          const SizedBox(height: AppSpacing.xl),
-          Text(
-            'Profile',
-            style: Theme.of(context).textTheme.headlineSmall,
+          const SizedBox(height: 16),
+          AuthStatusBanner(
+            state: logoutState,
+            onDismiss: () =>
+                ref.read(logoutControllerProvider.notifier).clearStatus(),
           ),
-          const SizedBox(height: AppSpacing.lg),
-          _ProfileTile(
-            label: 'Email',
-            value: user?.email ?? 'Not available',
+          const SizedBox(height: 8),
+          FilledButton.icon(
+            onPressed: logoutState is AuthFormLoading
+                ? null
+                : () => ref.read(logoutControllerProvider.notifier).signOut(),
+            icon: logoutState is AuthFormLoading
+                ? const SizedBox(
+                    width: 18,
+                    height: 18,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : const Icon(Icons.logout_rounded),
+            label: Text(
+              logoutState is AuthFormLoading ? 'Signing out...' : 'Sign out',
+            ),
           ),
-          _ProfileTile(
-            label: 'User ID',
-            value: user?.id ?? 'Not available',
-          ),
-          const SizedBox(height: AppSpacing.xxl),
-          AppButton(
-            label: 'Sign Out',
-            variant: AppButtonVariant.outlined,
-            isExpanded: true,
-            icon: Icons.logout,
-            onPressed: () async {
-              try {
-                await ref.read(authRepositoryProvider).signOut();
-                if (context.mounted) {
-                  context.go(RouteConstants.login);
-                }
-              } on Object catch (error) {
-                if (context.mounted) {
-                  final message =
-                      ref.read(errorHandlerProvider).getUserMessage(error);
-                  context.showAppSnackBar(message);
-                }
-              }
-            },
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _ProfileTile extends StatelessWidget {
-  const _ProfileTile({
-    required this.label,
-    required this.value,
-  });
-
-  final String label;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: AppSpacing.md),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            style: Theme.of(context).textTheme.labelMedium,
-          ),
-          const SizedBox(height: AppSpacing.xs),
-          Text(
-            value,
-            style: Theme.of(context).textTheme.bodyLarge,
+          const SizedBox(height: 12),
+          OutlinedButton(
+            onPressed: () => context.go(RoutePaths.dashboard),
+            child: const Text('Back to dashboard'),
           ),
         ],
       ),

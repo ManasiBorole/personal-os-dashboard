@@ -8,6 +8,7 @@ import 'package:personal_os_dashboard/core/navigation/feature_placeholder_screen
 import 'package:personal_os_dashboard/core/router/go_router_refresh_notifier.dart';
 import 'package:personal_os_dashboard/core/router/route_paths.dart';
 import 'package:personal_os_dashboard/core/router/router_guard.dart';
+import 'package:personal_os_dashboard/features/auth/presentation/screens/forgot_password_screen.dart';
 import 'package:personal_os_dashboard/features/auth/presentation/screens/login_screen.dart';
 import 'package:personal_os_dashboard/features/auth/presentation/screens/signup_screen.dart';
 import 'package:personal_os_dashboard/features/auth/presentation/screens/splash_screen.dart';
@@ -44,6 +45,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: RouteConstants.signup,
         name: RoutePaths.signup,
         builder: (context, state) => const SignupScreen(),
+      ),
+      GoRoute(
+        path: RouteConstants.forgotPassword,
+        name: RoutePaths.forgotPassword,
+        builder: (context, state) => const ForgotPasswordScreen(),
       ),
       ShellRoute(
         navigatorKey: shellNavigatorKey,

@@ -31,6 +31,10 @@ final class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<void> signOut() => _remoteDataSource.signOut();
+
+  @override
+  Future<void> resetPassword({required String email}) =>
+      _remoteDataSource.resetPassword(email: email);
 }
 
 /// Fallback repository when Supabase is not configured.
@@ -65,6 +69,13 @@ final class UnconfiguredAuthRepository implements AuthRepository {
 
   @override
   Future<void> signOut() async {}
+
+  @override
+  Future<void> resetPassword({required String email}) async {
+    throw const core.AuthException(
+      'Supabase is not configured. Add credentials to .env',
+    );
+  }
 }
 
 /// Factory for creating the appropriate [AuthRepository].

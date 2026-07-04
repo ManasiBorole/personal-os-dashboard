@@ -1,0 +1,2 @@
+# Feature modules are added here following Clean Architecture.
+# See lib/core/architecture/feature_layers.dart for structure conventions.

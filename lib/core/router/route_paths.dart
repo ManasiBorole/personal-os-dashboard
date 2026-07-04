@@ -9,6 +9,9 @@ abstract final class RoutePaths {
   static const String goalCreate = 'goal-create';
   static const String goalEdit = 'goal-edit';
   static const String projects = 'projects';
+  static const String projectCreate = 'project-create';
+  static const String projectDetail = 'project-detail';
+  static const String projectEdit = 'project-edit';
   static const String tasks = 'tasks';
   static const String calendar = 'calendar';
   static const String meetings = 'meetings';

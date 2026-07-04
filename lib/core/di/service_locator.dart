@@ -24,6 +24,10 @@ import 'package:personal_os_dashboard/features/goals/data/datasources/goals_data
 import 'package:personal_os_dashboard/features/goals/data/datasources/supabase_goals_data_source.dart';
 import 'package:personal_os_dashboard/features/goals/data/repositories/goals_repository_impl.dart';
 import 'package:personal_os_dashboard/features/goals/domain/repositories/goals_repository.dart';
+import 'package:personal_os_dashboard/features/projects/data/datasources/projects_data_source.dart';
+import 'package:personal_os_dashboard/features/projects/data/datasources/supabase_projects_data_source.dart';
+import 'package:personal_os_dashboard/features/projects/data/repositories/projects_repository_impl.dart';
+import 'package:personal_os_dashboard/features/projects/domain/repositories/projects_repository.dart';
 
 /// Global service locator instance.
 final GetIt sl = GetIt.instance;
@@ -103,6 +107,9 @@ Future<void> configureDependencies(
   sl.registerLazySingleton<GoalsDataSource>(
     () => SupabaseGoalsDataSource(sl<DatabaseRemoteDataSource>()),
   );
+  sl.registerLazySingleton<ProjectsDataSource>(
+    () => SupabaseProjectsDataSource(sl<DatabaseRemoteDataSource>()),
+  );
 
   // Repositories
   sl.registerLazySingleton<AuthRepository>(
@@ -121,6 +128,12 @@ Future<void> configureDependencies(
     () => createGoalsRepository(
       isSupabaseReady: sl<SupabaseService>().isInitialized,
       remoteDataSource: sl<GoalsDataSource>(),
+    ),
+  );
+  sl.registerLazySingleton<ProjectsRepository>(
+    () => createProjectsRepository(
+      isSupabaseReady: sl<SupabaseService>().isInitialized,
+      remoteDataSource: sl<ProjectsDataSource>(),
     ),
   );
 

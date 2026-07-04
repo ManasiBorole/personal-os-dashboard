@@ -15,6 +15,9 @@ import 'package:personal_os_dashboard/features/auth/presentation/screens/splash_
 import 'package:personal_os_dashboard/features/dashboard/presentation/screens/dashboard_screen.dart';
 import 'package:personal_os_dashboard/features/goals/presentation/screens/goal_form_screen.dart';
 import 'package:personal_os_dashboard/features/goals/presentation/screens/goals_screen.dart';
+import 'package:personal_os_dashboard/features/projects/presentation/screens/project_detail_screen.dart';
+import 'package:personal_os_dashboard/features/projects/presentation/screens/project_form_screen.dart';
+import 'package:personal_os_dashboard/features/projects/presentation/screens/projects_screen.dart';
 import 'package:personal_os_dashboard/features/profile/presentation/screens/profile_screen.dart';
 
 /// Root navigator key for imperative navigation.
@@ -94,12 +97,38 @@ List<GoRoute> get _protectedRoutes => [
           ),
         ],
       ),
-      _placeholderRoute(
+      GoRoute(
         path: RouteConstants.projects,
         name: RoutePaths.projects,
-        title: 'Projects',
-        description: 'Organize work into focused initiatives.',
-        icon: Icons.folder_outlined,
+        pageBuilder: (context, state) => const NoTransitionPage(
+          child: ProjectsScreen(),
+        ),
+        routes: [
+          GoRoute(
+            path: 'new',
+            name: RoutePaths.projectCreate,
+            parentNavigatorKey: rootNavigatorKey,
+            builder: (context, state) => const ProjectFormScreen(),
+          ),
+          GoRoute(
+            path: ':id',
+            name: RoutePaths.projectDetail,
+            parentNavigatorKey: rootNavigatorKey,
+            builder: (context, state) => ProjectDetailScreen(
+              projectId: state.pathParameters['id']!,
+            ),
+            routes: [
+              GoRoute(
+                path: 'edit',
+                name: RoutePaths.projectEdit,
+                parentNavigatorKey: rootNavigatorKey,
+                builder: (context, state) => ProjectFormScreen(
+                  projectId: state.pathParameters['id'],
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
       _placeholderRoute(
         path: RouteConstants.tasks,

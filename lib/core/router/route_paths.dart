@@ -6,6 +6,8 @@ abstract final class RoutePaths {
   static const String forgotPassword = 'forgot-password';
   static const String dashboard = 'dashboard';
   static const String goals = 'goals';
+  static const String goalCreate = 'goal-create';
+  static const String goalEdit = 'goal-edit';
   static const String projects = 'projects';
   static const String tasks = 'tasks';
   static const String calendar = 'calendar';

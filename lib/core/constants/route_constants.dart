@@ -9,6 +9,8 @@ abstract final class RouteConstants {
   // Protected routes
   static const String dashboard = '/dashboard';
   static const String goals = '/goals';
+  static const String goalCreate = '/goals/new';
+  static const String goalEdit = '/goals/:id/edit';
   static const String projects = '/projects';
   static const String tasks = '/tasks';
   static const String calendar = '/calendar';

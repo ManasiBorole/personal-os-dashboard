@@ -15,6 +15,8 @@ import 'package:personal_os_dashboard/core/supabase/supabase_service.dart';
 import 'package:personal_os_dashboard/features/auth/domain/repositories/auth_repository.dart';
 import 'package:personal_os_dashboard/features/dashboard/data/datasources/dashboard_remote_datasource.dart';
 import 'package:personal_os_dashboard/features/dashboard/domain/repositories/dashboard_repository.dart';
+import 'package:personal_os_dashboard/features/goals/data/datasources/goals_data_source.dart';
+import 'package:personal_os_dashboard/features/goals/domain/repositories/goals_repository.dart';
 
 /// Global application configuration provider.
 final appConfigProvider = Provider<AppConfig>((ref) {
@@ -85,4 +87,14 @@ final dashboardRemoteDataSourceProvider =
 /// Dashboard repository provider.
 final dashboardRepositoryProvider = Provider<DashboardRepository>((ref) {
   return sl<DashboardRepository>();
+});
+
+/// Goals data source provider.
+final goalsDataSourceProvider = Provider<GoalsDataSource>((ref) {
+  return sl<GoalsDataSource>();
+});
+
+/// Goals repository provider.
+final goalsRepositoryProvider = Provider<GoalsRepository>((ref) {
+  return sl<GoalsRepository>();
 });

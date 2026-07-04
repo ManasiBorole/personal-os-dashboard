@@ -13,6 +13,8 @@ import 'package:personal_os_dashboard/features/auth/presentation/screens/login_s
 import 'package:personal_os_dashboard/features/auth/presentation/screens/signup_screen.dart';
 import 'package:personal_os_dashboard/features/auth/presentation/screens/splash_screen.dart';
 import 'package:personal_os_dashboard/features/dashboard/presentation/screens/dashboard_screen.dart';
+import 'package:personal_os_dashboard/features/goals/presentation/screens/goal_form_screen.dart';
+import 'package:personal_os_dashboard/features/goals/presentation/screens/goals_screen.dart';
 import 'package:personal_os_dashboard/features/profile/presentation/screens/profile_screen.dart';
 
 /// Root navigator key for imperative navigation.
@@ -69,12 +71,28 @@ List<GoRoute> get _protectedRoutes => [
           child: DashboardScreen(),
         ),
       ),
-      _placeholderRoute(
+      GoRoute(
         path: RouteConstants.goals,
         name: RoutePaths.goals,
-        title: 'Goals',
-        description: 'Track long-term objectives and milestones.',
-        icon: Icons.flag_outlined,
+        pageBuilder: (context, state) => const NoTransitionPage(
+          child: GoalsScreen(),
+        ),
+        routes: [
+          GoRoute(
+            path: 'new',
+            name: RoutePaths.goalCreate,
+            parentNavigatorKey: rootNavigatorKey,
+            builder: (context, state) => const GoalFormScreen(),
+          ),
+          GoRoute(
+            path: ':id/edit',
+            name: RoutePaths.goalEdit,
+            parentNavigatorKey: rootNavigatorKey,
+            builder: (context, state) => GoalFormScreen(
+              goalId: state.pathParameters['id'],
+            ),
+          ),
+        ],
       ),
       _placeholderRoute(
         path: RouteConstants.projects,
